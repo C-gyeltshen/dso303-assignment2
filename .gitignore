@@ -1,0 +1,12 @@
+node_modules/
+infra/.terraform/
+infra/.build/
+infra/**/.terraform/
+*.tfstate
+*.tfstate.*
+infra/terraform.tfvars
+infra/backend.hcl
+infra/tfplan
+frontend/config.js
+migrate-out.json
+.DS_Store

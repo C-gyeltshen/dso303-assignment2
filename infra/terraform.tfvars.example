@@ -1,0 +1,17 @@
+# Copy to terraform.tfvars (local runs) – CI passes the same values as TF_VAR_* secrets.
+region             = "ap-south-1"
+alarm_email        = "you@example.com"
+ses_sender_email   = "you@example.com"
+ses_verify_emails  = ["tutor.test@example.com", "student.test@example.com"]
+
+# Demo / student account settings (cheap). For production use the values in comments.
+single_nat_gateway          = true           # false
+db_instance_class           = "db.t4g.micro" # "db.t4g.medium"
+db_multi_az                 = true           # keep true – required by the brief
+deletion_protection         = false          # true
+api_reserved_concurrency    = -1             # 300
+worker_reserved_concurrency = -1             # 20
+
+# Optional custom domain (needs a Route 53 hosted zone)
+# domain_name      = "exams.example.edu"
+# hosted_zone_name = "example.edu"
