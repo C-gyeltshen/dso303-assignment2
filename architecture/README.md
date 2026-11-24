@@ -1,102 +1,98 @@
 # Architecture
 
-![Production architecture](architecture.png)
+![Architecture diagram](architecture-diagram.png)
 
-`architecture.png` is generated from `diagram.py` (Python `diagrams` library), so the diagram is versioned as code.
+*Editable vector version: [`architecture-diagram.svg`](architecture-diagram.svg)*
 
-## Tiers at a glance
+The design is split into layers. Each layer has one job, and every layer that holds servers or data is copied across **two Availability Zones** (two separate data centres in the same AWS Region). If one zone fails, the other keeps running.
 
-| Tier | Components | Placement |
+## 1. Users
+
+- **Students** sit exams and upload assignments.
+- **Tutors** create exams, mark answers and release results.
+- **Administrators** manage users and exam schedules.
+
+Everyone signs in through **Amazon Cognito**. Cognito puts each person in a group (Student, Tutor or Admin), and the API checks that group before every action. For example, only a Tutor can release results.
+
+## 2. Edge layer (in front of everything)
+
+| Part | What it does, simply |
+|---|---|
+| **Route 53** | Turns `exam.uni.edu` into the address of CloudFront |
+| **AWS WAF + Shield** | Blocks attacks (SQL injection, scripting, floods) and limits how fast one address can try to log in |
+| **CloudFront + ACM** | Serves the website from locations close to users, and forces HTTPS with a free, auto-renewing certificate |
+| **S3 web app bucket** | Holds the website files (HTML, JavaScript). It is private, so only CloudFront can read it |
+
+Requests for web pages stop here and never reach the servers. Only requests starting with `/api/` go on into the VPC.
+
+## 3. Network (the VPC)
+
+The VPC is a private network, `10.0.0.0/16`, with **six subnets**, three in each Availability Zone:
+
+| Subnet | Zone A | Zone B | What lives there | Reachable from the internet? |
+|---|---|---|---|---|
+| Public | 10.0.0.0/24 | 10.0.1.0/24 | Load balancer, NAT gateway | Yes, load balancer only |
+| Private app | 10.0.10.0/24 | 10.0.11.0/24 | Fargate API tasks, Lambda functions | No |
+| Private data | 10.0.20.0/24 | 10.0.21.0/24 | Aurora, ElastiCache, RDS Proxy | No |
+
+- The **internet gateway** is the VPC's front door for the load balancer.
+- Each zone has its own **NAT gateway**, so private servers can reach the internet (for updates) without being reachable from it. A failure in one zone does not cut off the other.
+- **Gateway endpoints** for S3 and DynamoDB keep that traffic inside AWS. This is safer and cheaper than going through NAT.
+- **Security groups** act as firewalls between layers. Only the load balancer may talk to the API, and only the API and RDS Proxy may talk to the databases.
+
+## 4. Compute
+
+| Part | What it does |
+|---|---|
+| **Application Load Balancer** | One load balancer with a node in each zone. It checks server health and only sends requests to healthy servers |
+| **ECS on Fargate (exam-api)** | Runs the API in containers. At least 2 tasks per zone at all times, up to 20 in total during an exam peak. No servers to patch |
+| **Lambda: marking-fn** | Marks multiple-choice answers automatically after a student submits |
+| **Lambda: notify-fn** | Checks a new upload, records it and emails the tutor |
+
+## 5. Data
+
+| Part | What it stores | How it survives a zone failure |
 |---|---|---|
-| Edge | Route 53, CloudFront, AWS WAF, ACM | Global (WAF/ACM in us-east-1) |
-| Frontend | S3 static site bucket (private, CloudFront Origin Access Control) | Regional, multi-AZ by design |
-| Authentication | Cognito User Pool + Hosted UI, groups `students`, `tutors`, `admins` | Regional, multi-AZ by design |
-| API | API Gateway HTTP API (`/api/*` behind CloudFront), JWT authorizer, throttling | Regional, multi-AZ by design |
-| Compute | Lambda: `api`, `marker`, `upload-processor`, `notifier`, `migrate` | VPC **private app subnets** in AZ-a and AZ-b |
-| Network | VPC 10.0.0.0/16; public subnets (NAT GW per AZ, IGW); private app subnets; private data subnets; S3 gateway endpoint | 2 AZs |
-| Database | RDS PostgreSQL **Multi-AZ** (primary AZ-a, synchronous standby AZ-b) + RDS Proxy | VPC **private data subnets**, not publicly accessible |
-| File storage | S3 uploads bucket: SSE-KMS, versioning, block public access, lifecycle Standard → Standard-IA (30 d) → Glacier Flexible Retrieval (180 d) → delete after 5 years | Regional |
-| Async | SQS `uploads-queue`, `marking-queue`, `notify-queue` (each with DLQ); SES for email | Regional |
-| Secrets & keys | Secrets Manager (RDS-managed master secret), KMS customer-managed key | Regional |
-| Monitoring | CloudWatch logs, metrics, dashboard, alarms → SNS ops topic; X-Ray tracing; CloudTrail | Regional |
-| Backup / DR | RDS automated backups (35-day PITR, transaction logs shipped every 5 min); AWS Backup monthly snapshots kept 5 years | Regional |
-| CI/CD | GitHub Actions → OIDC → IAM deploy role → `terraform apply`, frontend sync, CloudFront invalidation, DB migration | — |
+| **Aurora PostgreSQL** | Users, exams, questions, submissions, results | The writer is in Zone A with a standby in Zone B. If Zone A fails, the standby takes over in about a minute |
+| **RDS Proxy** | Stores nothing: it shares database connections so many Lambda runs don't overload Aurora | Runs across both zones |
+| **DynamoDB (AnswerDrafts)** | Autosaved answers, every 30 seconds | Built into AWS across several zones; point-in-time restore is on |
+| **ElastiCache Redis** | Copies of exam papers, so 3,000 students don't all hit the database | Primary in Zone A, replica in Zone B, automatic failover |
+| **S3 (assignment files)** | Uploaded PDF and ZIP files | Built into AWS across several zones |
 
-## Walkthrough 1 – A student opens an exam and answers autosave
+**Storage lifecycle rule for assignment files:** Standard storage → Standard-Infrequent Access after 30 days → Glacier after 1 year → deleted after 5 years.
 
-```mermaid
-sequenceDiagram
-  autonumber
-  participant B as Browser
-  participant CG as Cognito
-  participant CF as CloudFront + WAF
-  participant AG as API Gateway
-  participant L as API Lambda (private subnet)
-  participant P as RDS Proxy
-  participant DB as RDS PostgreSQL (Multi-AZ)
-  B->>CG: Sign in (Hosted UI, auth code + PKCE)
-  CG-->>B: ID/access JWT (group = students)
-  B->>CF: GET / (SPA from S3 via OAC, cached at edge)
-  B->>CF: POST /api/exams/{id}/start  (Bearer JWT)
-  CF->>AG: WAF rules + rate limit pass, forward /api/*
-  AG->>AG: JWT authorizer validates signature, expiry, audience
-  AG->>L: Invoke with claims (sub, cognito:groups)
-  L->>P: INSERT attempt (deadline = now + duration) ON CONFLICT return existing
-  P->>DB: pooled connection
-  L-->>B: questions (no answer keys) + server deadline
-  loop every 30 s
-    B->>CF: PUT /api/attempts/{id}/answers {answers, clientSeq}
-    CF->>AG: forward
-    AG->>L: invoke
-    L->>DB: UPSERT answers WHERE now() <= deadline + 60 s grace AND clientSeq is newer
-    DB-->>L: committed (sync-replicated to standby in AZ-b)
-    L-->>B: 200 {savedAt}
-  end
-  B->>CF: POST /api/attempts/{id}/submit
-  L->>DB: status = submitted
-  L->>SQS marking-queue: {attemptId}
-  Note over L: marker Lambda auto-marks MCQs, stores score; short answers wait for tutor
-```
+## 6. Background processing (asynchronous)
 
-1. The student signs in through the Cognito Hosted UI and receives JWTs that carry the `students` group.
-2. CloudFront serves the single-page app from the private S3 bucket (cached at the edge); WAF inspects every request.
-3. `POST /api/exams/{id}/start` is routed by CloudFront to API Gateway, whose JWT authorizer rejects bad tokens before any Lambda runs.
-4. The API Lambda in a private subnet creates (or resumes) the attempt in PostgreSQL through RDS Proxy and returns the questions **without** answer keys plus a server-side deadline.
-5. Every 30 s the browser sends `PUT /api/attempts/{id}/answers`. The Lambda upserts the answer set only if the attempt is still open; the write is synchronously replicated to the standby in AZ-b before it is acknowledged. A copy is also kept in the browser's `localStorage`, so a network blip never loses work.
-6. On submit (or deadline), the attempt is locked and a message goes to `marking-queue`; the `marker` Lambda auto-marks MCQs asynchronously.
+Slow jobs are not done while the student waits. They are put in a queue and done in the background:
 
-## Walkthrough 2 – A student uploads a 40 MB assignment and the tutor is notified
+1. **EventBridge** receives events such as "file uploaded" or "exam submitted" and sends each one to the right queue.
+2. **SQS submissions queue** feeds `notify-fn`, and the **SQS marking queue** feeds `marking-fn`.
+3. If a job fails 5 times, it moves to the **dead-letter queue** and an alarm goes off, so nothing is lost silently.
+4. **Amazon SES** sends the emails.
 
-```mermaid
-sequenceDiagram
-  autonumber
-  participant B as Browser
-  participant AG as API Gateway + API Lambda
-  participant S3 as S3 uploads (SSE-KMS)
-  participant Q as SQS uploads-queue
-  participant W as upload-processor Lambda
-  participant DB as RDS PostgreSQL
-  participant SES as Amazon SES
-  B->>AG: POST /api/assignments/{id}/upload-url {fileName, contentType}
-  AG->>AG: JWT ok, role = student, type in {pdf, zip}, before due date
-  AG-->>B: presigned POST (5 min, content-length-range 1..50 MB, key prefix fixed)
-  B->>S3: POST 40 MB file directly (TLS) — API never touches the bytes
-  S3-->>B: 204
-  S3->>Q: s3:ObjectCreated event
-  Q->>W: batch (retries, then DLQ)
-  W->>S3: HeadObject + ranged GET of first bytes (check %PDF / PK magic)
-  W->>DB: INSERT submission (student, assignment, key, size, sha, received_at)
-  W->>SES: email tutor "New submission for <assignment>"
-  SES-->>Tutor: email
-```
+## 7. Security
 
-1. The browser asks the API for an upload URL. The Lambda checks the role, due date and file type and returns an S3 **presigned POST** whose policy pins the object key prefix and enforces `content-length-range` ≤ 50 MB.
-2. The browser uploads the 40 MB file straight to S3 over TLS; the object is encrypted with the KMS key. API Gateway's 10 MB payload limit and Lambda's 6 MB limit never come into play.
-3. S3 emits `ObjectCreated` to `uploads-queue`. The `upload-processor` Lambda validates size and magic bytes, records the submission in PostgreSQL, and sends the tutor an email via SES. Failures retry automatically and land in the DLQ (alarmed) after 5 attempts.
-4. Lifecycle rules then move the file to Standard-IA after 30 days, Glacier after 180 days, and delete it after 5 years.
+- **IAM roles** give each part only the permissions it needs. For example, the API can write to DynamoDB but cannot delete the table.
+- **Secrets Manager** holds the database password and changes it automatically every 30 days.
+- **KMS** keys encrypt the databases, files, queues and backups.
+- **GuardDuty** watches for suspicious activity.
 
-## How the design handles the exam peak and the loss of one AZ (≈280 words)
+## 8. Monitoring and backup
 
-**Peak.** 3,000 students starting within 5 minutes is about 10 starts/s, then 3,000 ÷ 30 s ≈ 100 autosave writes/s — small requests. The SPA is served by CloudFront from edge cache, so page loads never hit the region. API Gateway and Lambda scale per request with no warm-up of servers; Lambda reserved concurrency (300) caps the fleet so it cannot exhaust the database, and RDS Proxy multiplexes those invocations onto a small pool of PostgreSQL connections. Autosave is a single-row upsert keyed by attempt, which PostgreSQL handles easily at this rate. Slow work — MCQ marking, file checks and emails — is pushed onto SQS, so a burst of submissions at the deadline is queued and drained steadily instead of competing with live exams. 50 MB uploads go directly to S3 with presigned POSTs, so they consume no API or Lambda capacity. WAF rate-based rules and API Gateway throttling protect against abuse, and before each exam week we pre-scale the DB class and pre-warm with provisioned concurrency.
+- **CloudWatch** collects logs and metrics, and raises alarms (for example on many errors, slow responses, or jobs stuck in a queue).
+- **SNS** sends those alarms to the operations team.
+- **X-Ray** traces each request so slow steps are easy to find.
+- **CloudTrail** records every change made in the AWS account, kept for 5 years.
+- **AWS Backup** takes daily backups of Aurora and DynamoDB, keeps them for 5 years in a locked vault, and copies them to a second Region.
 
-**Loss of one AZ.** Every tier spans two AZs. CloudFront, S3, API Gateway, Cognito, SQS and SES are regional services that already survive an AZ loss. Lambda runs in private subnets in both AZs and simply stops placing invocations in the failed one; each AZ has its own NAT gateway so egress has no cross-AZ single point. RDS Multi-AZ replicates synchronously to the standby; if the primary's AZ fails, RDS promotes the standby and flips the DNS endpoint in roughly 60–120 s, and RDS Proxy reduces that pause for clients. Because replication is synchronous no committed answer is lost (RPO ≈ 0, well within 5 minutes), and the browser's local copy re-sends anything unsent. Recovery is automatic, far inside the 1-hour RTO.
+## 9. CI/CD pipeline
+
+`GitHub (main branch) → CodePipeline → CodeBuild (tests and build) → ECR (container images) → CloudFormation (infrastructure) → ECS rolling deploy (plus website upload to S3 and a CloudFront refresh)`
+
+Pushing to `main` redeploys everything automatically, with no manual steps.
+
+## More detail
+
+- Step-by-step request flows: [`walkthroughs.md`](walkthroughs.md)
+- Exam peak and zone failure: [`peak-and-az-failure.md`](peak-and-az-failure.md)
+- Every service with its reasons and settings: [`../docs/services.md`](../docs/services.md)

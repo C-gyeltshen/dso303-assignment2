@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1120" viewBox="0 0 1500 1120" font-family="Helvetica, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9z" fill="context-stroke"/></marker><style>.t{font-size:14px;font-weight:700}.s{font-size:11.5px}.r{font-size:13px;font-weight:700}.n{font-size:12px;font-weight:700}.h{font-size:22px;font-weight:700}.l{font-size:12px}</style></defs>
+<rect width="1500" height="1120" fill="#FFFFFF"/>
+<text x="30" y="38" class="h" fill="#1F1F1D">Online exam and assignment platform: AWS architecture (one Region, two Availability Zones)</text>
+<rect x="30" y="230" width="150" height="50" rx="8" fill="#FFFFFF" stroke="#444441" stroke-width="1.2"/>
+<text x="105.0" y="247.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">Students</text>
+<text x="105.0" y="264.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">8,000: exams, uploads</text>
+<rect x="30" y="300" width="150" height="50" rx="8" fill="#FFFFFF" stroke="#444441" stroke-width="1.2"/>
+<text x="105.0" y="317.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">Tutors</text>
+<text x="105.0" y="334.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">create, mark, release</text>
+<rect x="30" y="370" width="150" height="50" rx="8" fill="#FFFFFF" stroke="#444441" stroke-width="1.2"/>
+<text x="105.0" y="387.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">Administrators</text>
+<text x="105.0" y="404.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">users, schedules</text>
+<rect x="30" y="470" width="150" height="62" rx="8" fill="#FDECEC" stroke="#C62828" stroke-width="1.2"/>
+<text x="105.0" y="485.0" class="t" fill="#6B1111" text-anchor="middle" dominant-baseline="central">Amazon Cognito</text>
+<text x="105.0" y="502.0" class="s" fill="#6B1111" text-anchor="middle" dominant-baseline="central">sign-in + roles</text>
+<text x="105.0" y="517.0" class="s" fill="#6B1111" text-anchor="middle" dominant-baseline="central">Student / Tutor / Admin</text>
+<rect x="220" y="60" width="900" height="120" rx="12" fill="none" stroke="#8C4FFF" stroke-width="1.4"/>
+<rect x="240" y="95" width="150" height="62" rx="8" fill="#F3EEFE" stroke="#8C4FFF" stroke-width="1.2"/>
+<text x="315.0" y="118.0" class="t" fill="#3C2A78" text-anchor="middle" dominant-baseline="central">Route 53</text>
+<text x="315.0" y="135.0" class="s" fill="#3C2A78" text-anchor="middle" dominant-baseline="central">DNS exam.uni.edu</text>
+<rect x="410" y="95" width="170" height="62" rx="8" fill="#F3EEFE" stroke="#8C4FFF" stroke-width="1.2"/>
+<text x="495.0" y="118.0" class="t" fill="#3C2A78" text-anchor="middle" dominant-baseline="central">AWS WAF + Shield</text>
+<text x="495.0" y="135.0" class="s" fill="#3C2A78" text-anchor="middle" dominant-baseline="central">blocks attacks, limits</text>
+<rect x="600" y="95" width="170" height="62" rx="8" fill="#F3EEFE" stroke="#8C4FFF" stroke-width="1.2"/>
+<text x="685.0" y="118.0" class="t" fill="#3C2A78" text-anchor="middle" dominant-baseline="central">CloudFront + ACM</text>
+<text x="685.0" y="135.0" class="s" fill="#3C2A78" text-anchor="middle" dominant-baseline="central">CDN, HTTPS (TLS 1.2+)</text>
+<rect x="790" y="95" width="150" height="62" rx="8" fill="#F3EEFE" stroke="#8C4FFF" stroke-width="1.2"/>
+<text x="865.0" y="118.0" class="t" fill="#3C2A78" text-anchor="middle" dominant-baseline="central">S3 web app</text>
+<text x="865.0" y="135.0" class="s" fill="#3C2A78" text-anchor="middle" dominant-baseline="central">React site (private)</text>
+<rect x="960" y="95" width="140" height="62" rx="8" fill="#E8F3FC" stroke="#2E73B8" stroke-width="1.2"/>
+<text x="1030.0" y="118.0" class="t" fill="#123A5E" text-anchor="middle" dominant-baseline="central">Internet gateway</text>
+<text x="1030.0" y="135.0" class="s" fill="#123A5E" text-anchor="middle" dominant-baseline="central">VPC front door</text>
+<path d="M 180 255 L 205 255 L 205 126 L 238 126" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M 390 126 L 408 126" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M 580 126 L 598 126" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M 770 126 L 788 126" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="220" y="200" width="900" height="690" rx="12" fill="#FBFAFF" stroke="#8C4FFF" stroke-width="1.4"/>
+<rect x="236" y="228" width="430" height="646" rx="12" fill="none" stroke="#2E73B8" stroke-width="1.4" stroke-dasharray="7 5"/>
+<rect x="674" y="228" width="430" height="646" rx="12" fill="none" stroke="#2E73B8" stroke-width="1.4" stroke-dasharray="7 5"/>
+<rect x="250" y="252" width="402" height="118" rx="12" fill="#F2F8EC" stroke="#3F8624" stroke-width="1.4"/>
+<rect x="250" y="382" width="402" height="196" rx="12" fill="#EEF6FC" stroke="#147EBA" stroke-width="1.4"/>
+<rect x="250" y="590" width="402" height="196" rx="12" fill="#EEF6FC" stroke="#147EBA" stroke-width="1.4"/>
+<rect x="688" y="252" width="402" height="118" rx="12" fill="#F2F8EC" stroke="#3F8624" stroke-width="1.4"/>
+<rect x="688" y="382" width="402" height="196" rx="12" fill="#EEF6FC" stroke="#147EBA" stroke-width="1.4"/>
+<rect x="688" y="590" width="402" height="196" rx="12" fill="#EEF6FC" stroke="#147EBA" stroke-width="1.4"/>
+<rect x="270" y="285" width="130" height="62" rx="8" fill="#E8F3FC" stroke="#2E73B8" stroke-width="1.2"/>
+<text x="335.0" y="308.0" class="t" fill="#123A5E" text-anchor="middle" dominant-baseline="central">NAT gateway A</text>
+<text x="335.0" y="325.0" class="s" fill="#123A5E" text-anchor="middle" dominant-baseline="central">outbound only</text>
+<rect x="940" y="285" width="130" height="62" rx="8" fill="#E8F3FC" stroke="#2E73B8" stroke-width="1.2"/>
+<text x="1005.0" y="308.0" class="t" fill="#123A5E" text-anchor="middle" dominant-baseline="central">NAT gateway B</text>
+<text x="1005.0" y="325.0" class="s" fill="#123A5E" text-anchor="middle" dominant-baseline="central">outbound only</text>
+<rect x="530" y="282" width="380" height="68" rx="8" fill="#E8F3FC" stroke="#2E73B8" stroke-width="1.2"/>
+<text x="720.0" y="300.0" class="t" fill="#123A5E" text-anchor="middle" dominant-baseline="central">Application Load Balancer</text>
+<text x="720.0" y="317.0" class="s" fill="#123A5E" text-anchor="middle" dominant-baseline="central">one ALB with a node in each AZ</text>
+<text x="720.0" y="332.0" class="s" fill="#123A5E" text-anchor="middle" dominant-baseline="central">health checks, HTTPS listener</text>
+<path d="M 685 157 L 685 175 L 600 175 L 600 280" fill="none" stroke="#8C4FFF" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="640" y="194" class="n" fill="#8C4FFF" text-anchor="middle">/api/*</text>
+<rect x="270" y="420" width="170" height="70" rx="8" fill="#FFF1E5" stroke="#E07B00" stroke-width="1.2"/>
+<text x="355.0" y="439.0" class="t" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">ECS Fargate API</text>
+<text x="355.0" y="456.0" class="s" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">exam-api tasks (AZ-A)</text>
+<text x="355.0" y="471.0" class="s" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">min 2 · scales to 10</text>
+<rect x="908" y="420" width="170" height="70" rx="8" fill="#FFF1E5" stroke="#E07B00" stroke-width="1.2"/>
+<text x="993.0" y="439.0" class="t" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">ECS Fargate API</text>
+<text x="993.0" y="456.0" class="s" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">exam-api tasks (AZ-B)</text>
+<text x="993.0" y="471.0" class="s" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">min 2 · scales to 10</text>
+<rect x="470" y="505" width="160" height="60" rx="8" fill="#FFF1E5" stroke="#E07B00" stroke-width="1.2"/>
+<text x="550.0" y="527.0" class="t" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">Lambda: marking-fn</text>
+<text x="550.0" y="544.0" class="s" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">auto-marks MCQs</text>
+<rect x="708" y="505" width="180" height="60" rx="8" fill="#FFF1E5" stroke="#E07B00" stroke-width="1.2"/>
+<text x="798.0" y="527.0" class="t" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">Lambda: notify-fn</text>
+<text x="798.0" y="544.0" class="s" fill="#6B3A00" text-anchor="middle" dominant-baseline="central">checks upload, emails</text>
+<path d="M 640 350 L 640 412 L 400 412 L 400 418" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M 860 350 L 860 362 L 1040 362 L 1040 418" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="270" y="630" width="170" height="66" rx="8" fill="#E9F7EF" stroke="#1E8E4F" stroke-width="1.2"/>
+<text x="355.0" y="647.0" class="t" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">Aurora PostgreSQL</text>
+<text x="355.0" y="664.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">writer (AZ-A)</text>
+<text x="355.0" y="679.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">users, exams, results</text>
+<rect x="908" y="630" width="170" height="66" rx="8" fill="#E9F7EF" stroke="#1E8E4F" stroke-width="1.2"/>
+<text x="993.0" y="647.0" class="t" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">Aurora PostgreSQL</text>
+<text x="993.0" y="664.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">standby / reader (AZ-B)</text>
+<text x="993.0" y="679.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">takes over in ~1 min</text>
+<rect x="270" y="712" width="170" height="58" rx="8" fill="#E9F7EF" stroke="#1E8E4F" stroke-width="1.2"/>
+<text x="355.0" y="733.0" class="t" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">ElastiCache Redis</text>
+<text x="355.0" y="750.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">primary: exam papers</text>
+<rect x="908" y="712" width="170" height="58" rx="8" fill="#E9F7EF" stroke="#1E8E4F" stroke-width="1.2"/>
+<text x="993.0" y="733.0" class="t" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">ElastiCache Redis</text>
+<text x="993.0" y="750.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">replica (auto failover)</text>
+<rect x="462" y="712" width="180" height="58" rx="8" fill="#E9F7EF" stroke="#1E8E4F" stroke-width="1.2"/>
+<text x="552.0" y="733.0" class="t" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">RDS Proxy</text>
+<text x="552.0" y="750.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">DB connection pool</text>
+<path d="M 440 663 L 906 663" fill="none" stroke="#1E8E4F" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="560" y="655" class="n" fill="#1E8E4F" text-anchor="middle">sync copy</text>
+<path d="M 355 490 L 355 628" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M 993 490 L 993 628" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="460" y="800" width="200" height="56" rx="8" fill="#E8F3FC" stroke="#2E73B8" stroke-width="1.2"/>
+<text x="560.0" y="820.0" class="t" fill="#123A5E" text-anchor="middle" dominant-baseline="central">S3 gateway endpoint</text>
+<text x="560.0" y="837.0" class="s" fill="#123A5E" text-anchor="middle" dominant-baseline="central">private path to S3</text>
+<rect x="690" y="800" width="220" height="56" rx="8" fill="#E8F3FC" stroke="#2E73B8" stroke-width="1.2"/>
+<text x="800.0" y="820.0" class="t" fill="#123A5E" text-anchor="middle" dominant-baseline="central">DynamoDB gateway endpoint</text>
+<text x="800.0" y="837.0" class="s" fill="#123A5E" text-anchor="middle" dominant-baseline="central">private path to DynamoDB</text>
+<rect x="1140" y="60" width="340" height="830" rx="12" fill="none" stroke="#6B6B66" stroke-width="1.4"/>
+<rect x="1160" y="92" width="300" height="56" rx="8" fill="#E9F7EF" stroke="#1E8E4F" stroke-width="1.2"/>
+<text x="1310.0" y="112.0" class="t" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">DynamoDB: AnswerDrafts</text>
+<text x="1310.0" y="129.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">30-second autosaves · PITR on</text>
+<rect x="1160" y="160" width="300" height="56" rx="8" fill="#E9F7EF" stroke="#1E8E4F" stroke-width="1.2"/>
+<text x="1310.0" y="180.0" class="t" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">S3: assignment files</text>
+<text x="1310.0" y="197.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">PDF/ZIP ≤ 50 MB · KMS encrypted</text>
+<rect x="1160" y="436" width="300" height="56" rx="8" fill="#E9F7EF" stroke="#1E8E4F" stroke-width="1.2"/>
+<text x="1310.0" y="456.0" class="t" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">S3 lifecycle → Glacier</text>
+<text x="1310.0" y="473.0" class="s" fill="#0E4A28" text-anchor="middle" dominant-baseline="central">IA 30 d → Glacier 1 yr → delete 5 yr</text>
+<rect x="1160" y="228" width="300" height="56" rx="8" fill="#FCEBF2" stroke="#C7356F" stroke-width="1.2"/>
+<text x="1310.0" y="248.0" class="t" fill="#64132F" text-anchor="middle" dominant-baseline="central">EventBridge</text>
+<text x="1310.0" y="265.0" class="s" fill="#64132F" text-anchor="middle" dominant-baseline="central">routes 'file uploaded', 'exam submitted'</text>
+<rect x="1160" y="296" width="145" height="56" rx="8" fill="#FCEBF2" stroke="#C7356F" stroke-width="1.2"/>
+<text x="1232.5" y="316.0" class="t" fill="#64132F" text-anchor="middle" dominant-baseline="central">SQS submissions</text>
+<text x="1232.5" y="333.0" class="s" fill="#64132F" text-anchor="middle" dominant-baseline="central">queue</text>
+<rect x="1315" y="296" width="145" height="56" rx="8" fill="#FCEBF2" stroke="#C7356F" stroke-width="1.2"/>
+<text x="1387.5" y="316.0" class="t" fill="#64132F" text-anchor="middle" dominant-baseline="central">SQS marking</text>
+<text x="1387.5" y="333.0" class="s" fill="#64132F" text-anchor="middle" dominant-baseline="central">queue</text>
+<rect x="1160" y="364" width="145" height="56" rx="8" fill="#FCEBF2" stroke="#C7356F" stroke-width="1.2"/>
+<text x="1232.5" y="384.0" class="t" fill="#64132F" text-anchor="middle" dominant-baseline="central">Dead-letter queue</text>
+<text x="1232.5" y="401.0" class="s" fill="#64132F" text-anchor="middle" dominant-baseline="central">after 5 tries</text>
+<rect x="1315" y="364" width="145" height="56" rx="8" fill="#FCEBF2" stroke="#C7356F" stroke-width="1.2"/>
+<text x="1387.5" y="384.0" class="t" fill="#64132F" text-anchor="middle" dominant-baseline="central">Amazon SES</text>
+<text x="1387.5" y="401.0" class="s" fill="#64132F" text-anchor="middle" dominant-baseline="central">emails</text>
+<rect x="1160" y="514" width="145" height="56" rx="8" fill="#FDECEC" stroke="#C62828" stroke-width="1.2"/>
+<text x="1232.5" y="534.0" class="t" fill="#6B1111" text-anchor="middle" dominant-baseline="central">Secrets Manager</text>
+<text x="1232.5" y="551.0" class="s" fill="#6B1111" text-anchor="middle" dominant-baseline="central">DB passwords</text>
+<rect x="1315" y="514" width="145" height="56" rx="8" fill="#FDECEC" stroke="#C62828" stroke-width="1.2"/>
+<text x="1387.5" y="534.0" class="t" fill="#6B1111" text-anchor="middle" dominant-baseline="central">KMS</text>
+<text x="1387.5" y="551.0" class="s" fill="#6B1111" text-anchor="middle" dominant-baseline="central">encryption keys</text>
+<rect x="1160" y="582" width="145" height="56" rx="8" fill="#FDECEC" stroke="#C62828" stroke-width="1.2"/>
+<text x="1232.5" y="602.0" class="t" fill="#6B1111" text-anchor="middle" dominant-baseline="central">IAM roles</text>
+<text x="1232.5" y="619.0" class="s" fill="#6B1111" text-anchor="middle" dominant-baseline="central">least privilege</text>
+<rect x="1315" y="582" width="145" height="56" rx="8" fill="#FDECEC" stroke="#C62828" stroke-width="1.2"/>
+<text x="1387.5" y="602.0" class="t" fill="#6B1111" text-anchor="middle" dominant-baseline="central">GuardDuty</text>
+<text x="1387.5" y="619.0" class="s" fill="#6B1111" text-anchor="middle" dominant-baseline="central">threat alerts</text>
+<rect x="1160" y="660" width="145" height="56" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="1232.5" y="680.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">CloudWatch</text>
+<text x="1232.5" y="697.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">logs, alarms</text>
+<rect x="1315" y="660" width="145" height="56" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="1387.5" y="680.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">X-Ray</text>
+<text x="1387.5" y="697.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">request tracing</text>
+<rect x="1160" y="728" width="145" height="56" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="1232.5" y="748.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">SNS</text>
+<text x="1232.5" y="765.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">alerts to ops team</text>
+<rect x="1315" y="728" width="145" height="56" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="1387.5" y="748.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">CloudTrail</text>
+<text x="1387.5" y="765.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">audit log, 5 yr</text>
+<rect x="1160" y="806" width="300" height="60" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="1310.0" y="828.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">AWS Backup</text>
+<text x="1310.0" y="845.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">daily, kept 5 years, copy to 2nd Region</text>
+<path d="M 1078 455 L 1130 455 L 1130 120 L 1158 120" fill="none" stroke="#1E8E4F" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M 1232 216 L 1232 226" fill="none" stroke="#C7356F" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M 1232 284 L 1232 294" fill="none" stroke="#C7356F" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M 1158 324 L 1112 324 L 1112 535 L 890 535" fill="none" stroke="#C7356F" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="220" y="920" width="1260" height="110" rx="12" fill="none" stroke="#6B6B66" stroke-width="1.4"/>
+<rect x="240" y="952" width="180" height="58" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="330.0" y="973.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">GitHub</text>
+<text x="330.0" y="990.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">main branch</text>
+<rect x="446" y="952" width="180" height="58" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="536.0" y="973.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">CodePipeline</text>
+<text x="536.0" y="990.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">orchestrates</text>
+<path d="M 420 981 L 444 981" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="652" y="952" width="180" height="58" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="742.0" y="973.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">CodeBuild</text>
+<text x="742.0" y="990.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">test + build</text>
+<path d="M 626 981 L 650 981" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="858" y="952" width="180" height="58" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="948.0" y="973.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">ECR</text>
+<text x="948.0" y="990.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">container images</text>
+<path d="M 832 981 L 856 981" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="1064" y="952" width="180" height="58" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="1154.0" y="973.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">CloudFormation</text>
+<text x="1154.0" y="990.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">infrastructure as code</text>
+<path d="M 1038 981 L 1062 981" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="1270" y="952" width="180" height="58" rx="8" fill="#F1F1EE" stroke="#6B6B66" stroke-width="1.2"/>
+<text x="1360.0" y="973.0" class="t" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">ECS rolling deploy</text>
+<text x="1360.0" y="990.0" class="s" fill="#2C2C2A" text-anchor="middle" dominant-baseline="central">+ S3 sync, CDN refresh</text>
+<path d="M 1244 981 L 1268 981" fill="none" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="30" y="1062" class="l" fill="#2C2C2A">Flow 1 (open exam, autosave): Student → Route 53 → WAF → CloudFront → ALB → Fargate task → Redis/Aurora (exam) and DynamoDB (autosave).</text>
+<text x="30" y="1082" class="l" fill="#2C2C2A">Flow 2 (upload): API returns a presigned URL → browser uploads straight to S3 → EventBridge → SQS → notify-fn → Aurora (via RDS Proxy) + SES email to tutor.</text>
+<text x="30" y="1102" class="l" fill="#2C2C2A">Colours: purple = edge · blue = network · orange = compute · green = data · pink = messaging · red = security · grey = operations. Green arrow = autosave to DynamoDB; pink arrow = queue triggers notify-fn. Databases have no public address.</text>
+<rect x="226" y="65" width="152.4" height="18" fill="#FFFFFF"/>
+<text x="232" y="78" class="r" fill="#8C4FFF">Edge layer (global)</text>
+<rect x="226" y="205" width="122.0" height="18" fill="#FBFAFF"/>
+<text x="232" y="218" class="r" fill="#8C4FFF">VPC 10.0.0.0/16</text>
+<rect x="242" y="233" width="152.4" height="18" fill="#FFFFFF"/>
+<text x="248" y="246" class="r" fill="#2E73B8">Availability Zone A</text>
+<rect x="680" y="233" width="152.4" height="18" fill="#FFFFFF"/>
+<text x="686" y="246" class="r" fill="#2E73B8">Availability Zone B</text>
+<rect x="256" y="257" width="228.39999999999998" height="18" fill="#F2F8EC"/>
+<text x="262" y="270" class="r" fill="#3F8624">Public subnet a · 10.0.0.0/24</text>
+<rect x="256" y="387" width="274.0" height="18" fill="#EEF6FC"/>
+<text x="262" y="400" class="r" fill="#147EBA">Private app subnet a · 10.0.10.0/24</text>
+<rect x="256" y="595" width="281.59999999999997" height="18" fill="#EEF6FC"/>
+<text x="262" y="608" class="r" fill="#147EBA">Private data subnet a · 10.0.20.0/24</text>
+<rect x="694" y="257" width="228.39999999999998" height="18" fill="#F2F8EC"/>
+<text x="700" y="270" class="r" fill="#3F8624">Public subnet b · 10.0.1.0/24</text>
+<rect x="694" y="387" width="274.0" height="18" fill="#EEF6FC"/>
+<text x="700" y="400" class="r" fill="#147EBA">Private app subnet b · 10.0.11.0/24</text>
+<rect x="694" y="595" width="281.59999999999997" height="18" fill="#EEF6FC"/>
+<text x="700" y="608" class="r" fill="#147EBA">Private data subnet b · 10.0.21.0/24</text>
+<rect x="1146" y="65" width="312.0" height="18" fill="#FFFFFF"/>
+<text x="1152" y="78" class="r" fill="#6B6B66">Regional managed services (span all AZs)</text>
+<rect x="226" y="925" width="304.4" height="18" fill="#FFFFFF"/>
+<text x="232" y="938" class="r" fill="#6B6B66">CI/CD pipeline (push to main redeploys)</text>
+</svg>

@@ -1,0 +1,4175 @@
+{
+  "format": "aws-architecture-lab",
+  "version": 2,
+  "applicationRelease": {
+    "version": "1.0.0",
+    "buildId": "e0a42ea0-ddb8-4c6f-ba18-8fe0f6b62f19",
+    "channel": "stable",
+    "builtAt": "2026-11-08T10:26:50.924Z",
+    "draftVersion": 2
+  },
+  "savedAt": "2026-11-22T17:09:34.041Z",
+  "state": {
+    "draftName": "Online exam platform \u00b7 01-walkthrough1a-exam-start",
+    "nodes": [
+      {
+        "id": "vpc",
+        "type": "boundaryNode",
+        "position": {
+          "x": 100,
+          "y": 0
+        },
+        "style": {
+          "width": 1260,
+          "height": 1180
+        },
+        "data": {
+          "label": "exam-vpc",
+          "boundaryType": "vpc",
+          "width": 1260,
+          "height": 1180,
+          "cidr": "10.0.0.0/16",
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -4,
+        "measured": {
+          "width": 1260,
+          "height": 1180
+        }
+      },
+      {
+        "id": "az-a",
+        "type": "boundaryNode",
+        "position": {
+          "x": 125,
+          "y": 50
+        },
+        "style": {
+          "width": 600,
+          "height": 1100
+        },
+        "data": {
+          "label": "Availability Zone A",
+          "boundaryType": "az",
+          "width": 600,
+          "height": 1100,
+          "az": "AZ-A",
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -3,
+        "measured": {
+          "width": 600,
+          "height": 1100
+        }
+      },
+      {
+        "id": "az-b",
+        "type": "boundaryNode",
+        "position": {
+          "x": 735,
+          "y": 50
+        },
+        "style": {
+          "width": 600,
+          "height": 1100
+        },
+        "data": {
+          "label": "Availability Zone B",
+          "boundaryType": "az",
+          "width": 600,
+          "height": 1100,
+          "az": "AZ-B",
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -3,
+        "measured": {
+          "width": 600,
+          "height": 1100
+        }
+      },
+      {
+        "id": "pub-a",
+        "type": "boundaryNode",
+        "position": {
+          "x": 145,
+          "y": 90
+        },
+        "style": {
+          "width": 560,
+          "height": 230
+        },
+        "data": {
+          "label": "public-a \u00b7 AZ-A",
+          "boundaryType": "public_subnet",
+          "width": 560,
+          "height": 230,
+          "cidr": "10.0.0.0/19",
+          "az": "AZ-A",
+          "networkIdentity": {
+            "routeTableId": "rt-public"
+          },
+          "totalAddresses": 8192,
+          "usableHosts": 8187,
+          "reservedAddresses": [
+            {
+              "ip": "10.0.0.0",
+              "offset": 0,
+              "role": "Network Address",
+              "description": "First address in the subnet. Identifies the network itself."
+            },
+            {
+              "ip": "10.0.0.1",
+              "offset": 1,
+              "role": "VPC Router",
+              "description": "Reserved by AWS for the default VPC router / subnet gateway."
+            },
+            {
+              "ip": "10.0.0.2",
+              "offset": 2,
+              "role": "Amazon-Provided DNS",
+              "description": "Reserved by AWS for the DNS resolver (Route 53 Resolver / AmazonProvidedDNS)."
+            },
+            {
+              "ip": "10.0.0.3",
+              "offset": 3,
+              "role": "AWS Future Use",
+              "description": "Reserved by AWS for potential future internal functionality."
+            },
+            {
+              "ip": "10.0.31.255",
+              "offset": 8191,
+              "role": "Network Broadcast Address",
+              "description": "Last address in the subnet. AWS does not support broadcast in a VPC, but reserves the address."
+            }
+          ],
+          "usableRange": {
+            "start": "10.0.0.4",
+            "end": "10.0.31.254"
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -2,
+        "measured": {
+          "width": 560,
+          "height": 230
+        }
+      },
+      {
+        "id": "app-a",
+        "type": "boundaryNode",
+        "position": {
+          "x": 145,
+          "y": 350
+        },
+        "style": {
+          "width": 560,
+          "height": 360
+        },
+        "data": {
+          "label": "private-app-a \u00b7 AZ-A",
+          "boundaryType": "private_subnet",
+          "width": 560,
+          "height": 360,
+          "cidr": "10.0.64.0/19",
+          "az": "AZ-A",
+          "networkIdentity": {
+            "routeTableId": "rt-private-a"
+          },
+          "totalAddresses": 8192,
+          "usableHosts": 8187,
+          "reservedAddresses": [
+            {
+              "ip": "10.0.64.0",
+              "offset": 0,
+              "role": "Network Address",
+              "description": "First address in the subnet. Identifies the network itself."
+            },
+            {
+              "ip": "10.0.64.1",
+              "offset": 1,
+              "role": "VPC Router",
+              "description": "Reserved by AWS for the default VPC router / subnet gateway."
+            },
+            {
+              "ip": "10.0.64.2",
+              "offset": 2,
+              "role": "Amazon-Provided DNS",
+              "description": "Reserved by AWS for the DNS resolver (Route 53 Resolver / AmazonProvidedDNS)."
+            },
+            {
+              "ip": "10.0.64.3",
+              "offset": 3,
+              "role": "AWS Future Use",
+              "description": "Reserved by AWS for potential future internal functionality."
+            },
+            {
+              "ip": "10.0.95.255",
+              "offset": 8191,
+              "role": "Network Broadcast Address",
+              "description": "Last address in the subnet. AWS does not support broadcast in a VPC, but reserves the address."
+            }
+          ],
+          "usableRange": {
+            "start": "10.0.64.4",
+            "end": "10.0.95.254"
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -2,
+        "measured": {
+          "width": 560,
+          "height": 360
+        }
+      },
+      {
+        "id": "data-a",
+        "type": "boundaryNode",
+        "position": {
+          "x": 145,
+          "y": 740
+        },
+        "style": {
+          "width": 560,
+          "height": 380
+        },
+        "data": {
+          "label": "private-data-a \u00b7 AZ-A",
+          "boundaryType": "private_subnet",
+          "width": 560,
+          "height": 380,
+          "cidr": "10.0.128.0/19",
+          "az": "AZ-A",
+          "networkIdentity": {
+            "routeTableId": "rt-private-a"
+          },
+          "totalAddresses": 8192,
+          "usableHosts": 8187,
+          "reservedAddresses": [
+            {
+              "ip": "10.0.128.0",
+              "offset": 0,
+              "role": "Network Address",
+              "description": "First address in the subnet. Identifies the network itself."
+            },
+            {
+              "ip": "10.0.128.1",
+              "offset": 1,
+              "role": "VPC Router",
+              "description": "Reserved by AWS for the default VPC router / subnet gateway."
+            },
+            {
+              "ip": "10.0.128.2",
+              "offset": 2,
+              "role": "Amazon-Provided DNS",
+              "description": "Reserved by AWS for the DNS resolver (Route 53 Resolver / AmazonProvidedDNS)."
+            },
+            {
+              "ip": "10.0.128.3",
+              "offset": 3,
+              "role": "AWS Future Use",
+              "description": "Reserved by AWS for potential future internal functionality."
+            },
+            {
+              "ip": "10.0.159.255",
+              "offset": 8191,
+              "role": "Network Broadcast Address",
+              "description": "Last address in the subnet. AWS does not support broadcast in a VPC, but reserves the address."
+            }
+          ],
+          "usableRange": {
+            "start": "10.0.128.4",
+            "end": "10.0.159.254"
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -2,
+        "measured": {
+          "width": 560,
+          "height": 380
+        }
+      },
+      {
+        "id": "pub-b",
+        "type": "boundaryNode",
+        "position": {
+          "x": 755,
+          "y": 90
+        },
+        "style": {
+          "width": 560,
+          "height": 230
+        },
+        "data": {
+          "label": "public-b \u00b7 AZ-B",
+          "boundaryType": "public_subnet",
+          "width": 560,
+          "height": 230,
+          "cidr": "10.0.32.0/19",
+          "az": "AZ-B",
+          "networkIdentity": {
+            "routeTableId": "rt-public"
+          },
+          "totalAddresses": 8192,
+          "usableHosts": 8187,
+          "reservedAddresses": [
+            {
+              "ip": "10.0.32.0",
+              "offset": 0,
+              "role": "Network Address",
+              "description": "First address in the subnet. Identifies the network itself."
+            },
+            {
+              "ip": "10.0.32.1",
+              "offset": 1,
+              "role": "VPC Router",
+              "description": "Reserved by AWS for the default VPC router / subnet gateway."
+            },
+            {
+              "ip": "10.0.32.2",
+              "offset": 2,
+              "role": "Amazon-Provided DNS",
+              "description": "Reserved by AWS for the DNS resolver (Route 53 Resolver / AmazonProvidedDNS)."
+            },
+            {
+              "ip": "10.0.32.3",
+              "offset": 3,
+              "role": "AWS Future Use",
+              "description": "Reserved by AWS for potential future internal functionality."
+            },
+            {
+              "ip": "10.0.63.255",
+              "offset": 8191,
+              "role": "Network Broadcast Address",
+              "description": "Last address in the subnet. AWS does not support broadcast in a VPC, but reserves the address."
+            }
+          ],
+          "usableRange": {
+            "start": "10.0.32.4",
+            "end": "10.0.63.254"
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -2,
+        "measured": {
+          "width": 560,
+          "height": 230
+        }
+      },
+      {
+        "id": "app-b",
+        "type": "boundaryNode",
+        "position": {
+          "x": 755,
+          "y": 350
+        },
+        "style": {
+          "width": 560,
+          "height": 360
+        },
+        "data": {
+          "label": "private-app-b \u00b7 AZ-B",
+          "boundaryType": "private_subnet",
+          "width": 560,
+          "height": 360,
+          "cidr": "10.0.96.0/19",
+          "az": "AZ-B",
+          "networkIdentity": {
+            "routeTableId": "rt-private-b"
+          },
+          "totalAddresses": 8192,
+          "usableHosts": 8187,
+          "reservedAddresses": [
+            {
+              "ip": "10.0.96.0",
+              "offset": 0,
+              "role": "Network Address",
+              "description": "First address in the subnet. Identifies the network itself."
+            },
+            {
+              "ip": "10.0.96.1",
+              "offset": 1,
+              "role": "VPC Router",
+              "description": "Reserved by AWS for the default VPC router / subnet gateway."
+            },
+            {
+              "ip": "10.0.96.2",
+              "offset": 2,
+              "role": "Amazon-Provided DNS",
+              "description": "Reserved by AWS for the DNS resolver (Route 53 Resolver / AmazonProvidedDNS)."
+            },
+            {
+              "ip": "10.0.96.3",
+              "offset": 3,
+              "role": "AWS Future Use",
+              "description": "Reserved by AWS for potential future internal functionality."
+            },
+            {
+              "ip": "10.0.127.255",
+              "offset": 8191,
+              "role": "Network Broadcast Address",
+              "description": "Last address in the subnet. AWS does not support broadcast in a VPC, but reserves the address."
+            }
+          ],
+          "usableRange": {
+            "start": "10.0.96.4",
+            "end": "10.0.127.254"
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -2,
+        "measured": {
+          "width": 560,
+          "height": 360
+        }
+      },
+      {
+        "id": "data-b",
+        "type": "boundaryNode",
+        "position": {
+          "x": 755,
+          "y": 740
+        },
+        "style": {
+          "width": 560,
+          "height": 380
+        },
+        "data": {
+          "label": "private-data-b \u00b7 AZ-B",
+          "boundaryType": "private_subnet",
+          "width": 560,
+          "height": 380,
+          "cidr": "10.0.160.0/19",
+          "az": "AZ-B",
+          "networkIdentity": {
+            "routeTableId": "rt-private-b"
+          },
+          "totalAddresses": 8192,
+          "usableHosts": 8187,
+          "reservedAddresses": [
+            {
+              "ip": "10.0.160.0",
+              "offset": 0,
+              "role": "Network Address",
+              "description": "First address in the subnet. Identifies the network itself."
+            },
+            {
+              "ip": "10.0.160.1",
+              "offset": 1,
+              "role": "VPC Router",
+              "description": "Reserved by AWS for the default VPC router / subnet gateway."
+            },
+            {
+              "ip": "10.0.160.2",
+              "offset": 2,
+              "role": "Amazon-Provided DNS",
+              "description": "Reserved by AWS for the DNS resolver (Route 53 Resolver / AmazonProvidedDNS)."
+            },
+            {
+              "ip": "10.0.160.3",
+              "offset": 3,
+              "role": "AWS Future Use",
+              "description": "Reserved by AWS for potential future internal functionality."
+            },
+            {
+              "ip": "10.0.191.255",
+              "offset": 8191,
+              "role": "Network Broadcast Address",
+              "description": "Last address in the subnet. AWS does not support broadcast in a VPC, but reserves the address."
+            }
+          ],
+          "usableRange": {
+            "start": "10.0.160.4",
+            "end": "10.0.191.254"
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -2,
+        "measured": {
+          "width": 560,
+          "height": 380
+        }
+      },
+      {
+        "id": "sg-alb",
+        "type": "boundaryNode",
+        "position": {
+          "x": 2200,
+          "y": 40
+        },
+        "style": {
+          "width": 240,
+          "height": 120
+        },
+        "data": {
+          "label": "alb-sg (443 from CloudFront)",
+          "boundaryType": "security_group",
+          "width": 240,
+          "height": 120,
+          "allowedProtocols": [
+            "HTTP",
+            "HTTPS"
+          ],
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -4,
+        "measured": {
+          "width": 240,
+          "height": 120
+        }
+      },
+      {
+        "id": "sg-app",
+        "type": "boundaryNode",
+        "position": {
+          "x": 2200,
+          "y": 200
+        },
+        "style": {
+          "width": 240,
+          "height": 120
+        },
+        "data": {
+          "label": "app-sg (from alb-sg)",
+          "boundaryType": "security_group",
+          "width": 240,
+          "height": 120,
+          "securityGroupRules": {
+            "inbound": [
+              {
+                "protocol": "HTTP",
+                "portRange": "8080",
+                "source": {
+                  "type": "securityGroup",
+                  "securityGroupId": "sg-alb"
+                }
+              }
+            ],
+            "outbound": []
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -4,
+        "measured": {
+          "width": 240,
+          "height": 120
+        }
+      },
+      {
+        "id": "sg-data",
+        "type": "boundaryNode",
+        "position": {
+          "x": 2200,
+          "y": 360
+        },
+        "style": {
+          "width": 240,
+          "height": 120
+        },
+        "data": {
+          "label": "data-sg (from app-sg, proxy-sg)",
+          "boundaryType": "security_group",
+          "width": 240,
+          "height": 120,
+          "securityGroupRules": {
+            "inbound": [
+              {
+                "protocol": "SQL",
+                "portRange": "5432",
+                "source": {
+                  "type": "securityGroup",
+                  "securityGroupId": "sg-app"
+                }
+              },
+              {
+                "protocol": "SQL",
+                "portRange": "5432",
+                "source": {
+                  "type": "securityGroup",
+                  "securityGroupId": "sg-proxy"
+                }
+              },
+              {
+                "protocol": "TCP",
+                "portRange": "6379",
+                "source": {
+                  "type": "securityGroup",
+                  "securityGroupId": "sg-app"
+                }
+              }
+            ],
+            "outbound": []
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -4,
+        "measured": {
+          "width": 240,
+          "height": 120
+        }
+      },
+      {
+        "id": "sg-lambda",
+        "type": "boundaryNode",
+        "position": {
+          "x": 2200,
+          "y": 520
+        },
+        "style": {
+          "width": 240,
+          "height": 120
+        },
+        "data": {
+          "label": "lambda-sg",
+          "boundaryType": "security_group",
+          "width": 240,
+          "height": 120,
+          "allowedProtocols": [
+            "HTTPS",
+            "SQL"
+          ],
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -4,
+        "measured": {
+          "width": 240,
+          "height": 120
+        }
+      },
+      {
+        "id": "user",
+        "type": "serviceNode",
+        "position": {
+          "x": -260,
+          "y": 380
+        },
+        "data": {
+          "serviceId": "user",
+          "label": "Student browser",
+          "category": "Client / Ingress",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 119,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "success"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 119,
+          "height": 82
+        },
+        "style": {
+          "width": 119,
+          "height": 82
+        }
+      },
+      {
+        "id": "uploader",
+        "type": "serviceNode",
+        "position": {
+          "x": -260,
+          "y": 620
+        },
+        "data": {
+          "serviceId": "user",
+          "label": "Student browser (upload)",
+          "category": "Client / Ingress",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "cognito",
+        "type": "serviceNode",
+        "position": {
+          "x": -260,
+          "y": 140
+        },
+        "data": {
+          "serviceId": "cognito",
+          "label": "Cognito user pool (Student/Tutor/Admin)",
+          "category": "Security, Identity & Compliance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 117,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 117
+        },
+        "style": {
+          "width": 140,
+          "height": 117
+        }
+      },
+      {
+        "id": "r53",
+        "type": "serviceNode",
+        "position": {
+          "x": -80,
+          "y": -260
+        },
+        "data": {
+          "serviceId": "route53",
+          "label": "Route 53 exam.uni.edu",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "success"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "waf",
+        "type": "serviceNode",
+        "position": {
+          "x": 110,
+          "y": -260
+        },
+        "data": {
+          "serviceId": "waf",
+          "label": "AWS WAF web ACL",
+          "category": "Security, Identity & Compliance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 135,
+          "height": 82,
+          "isSimulating": true,
+          "simulationStatus": "active"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 135,
+          "height": 82
+        },
+        "style": {
+          "width": 135,
+          "height": 82
+        }
+      },
+      {
+        "id": "shield",
+        "type": "serviceNode",
+        "position": {
+          "x": 110,
+          "y": -420
+        },
+        "data": {
+          "serviceId": "shield",
+          "label": "Shield Standard",
+          "category": "Security, Identity & Compliance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 115,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 115,
+          "height": 82
+        },
+        "style": {
+          "width": 115,
+          "height": 82
+        }
+      },
+      {
+        "id": "cf",
+        "type": "serviceNode",
+        "position": {
+          "x": 300,
+          "y": -260
+        },
+        "data": {
+          "serviceId": "cloudfront",
+          "label": "CloudFront distribution",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "acm",
+        "type": "serviceNode",
+        "position": {
+          "x": 300,
+          "y": -420
+        },
+        "data": {
+          "serviceId": "acm",
+          "label": "ACM certificates",
+          "category": "Security, Identity & Compliance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 117,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 117,
+          "height": 82
+        },
+        "style": {
+          "width": 117,
+          "height": 82
+        }
+      },
+      {
+        "id": "s3web",
+        "type": "serviceNode",
+        "position": {
+          "x": 490,
+          "y": -260
+        },
+        "data": {
+          "serviceId": "s3",
+          "label": "S3 web app bucket (OAC)",
+          "category": "Storage",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "igw",
+        "type": "serviceNode",
+        "position": {
+          "x": 660,
+          "y": -110
+        },
+        "data": {
+          "serviceId": "internet_gateway",
+          "label": "exam-igw",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 100,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 100,
+          "height": 82
+        },
+        "style": {
+          "width": 100,
+          "height": 82
+        }
+      },
+      {
+        "id": "nat-a",
+        "type": "serviceNode",
+        "position": {
+          "x": 190,
+          "y": 170
+        },
+        "data": {
+          "serviceId": "nat_gateway",
+          "label": "nat-a",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "AZ-A",
+          "subnet": "public",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 100,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 100,
+          "height": 82
+        },
+        "style": {
+          "width": 100,
+          "height": 82
+        }
+      },
+      {
+        "id": "alb",
+        "type": "serviceNode",
+        "position": {
+          "x": 540,
+          "y": 170
+        },
+        "data": {
+          "serviceId": "alb",
+          "label": "exam-alb \u00b7 public A + B",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "public",
+          "replicas": 1,
+          "multiAz": true,
+          "securityGroupIds": [
+            "sg-alb"
+          ],
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "nat-b",
+        "type": "serviceNode",
+        "position": {
+          "x": 1150,
+          "y": 170
+        },
+        "data": {
+          "serviceId": "nat_gateway",
+          "label": "nat-b",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "AZ-B",
+          "subnet": "public",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 100,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 100,
+          "height": 82
+        },
+        "style": {
+          "width": 100,
+          "height": 82
+        }
+      },
+      {
+        "id": "ecs-a",
+        "type": "serviceNode",
+        "position": {
+          "x": 190,
+          "y": 420
+        },
+        "data": {
+          "serviceId": "ecs",
+          "label": "exam-api (Fargate) \u00b7 tasks AZ-A",
+          "category": "Compute",
+          "health": "healthy",
+          "az": "AZ-A",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": false,
+          "securityGroupIds": [
+            "sg-app"
+          ],
+          "customConfig": {
+            "ecs": {
+              "launchType": "FARGATE",
+              "networkMode": "awsvpc",
+              "desiredCount": 2,
+              "runningCount": 2,
+              "minCount": 4,
+              "maxCount": 20
+            }
+          },
+          "iamRole": {
+            "id": "ExamApiTaskRole",
+            "trustPolicy": {
+              "id": "ExamApiTaskRole-trust",
+              "kind": "trust",
+              "statements": [
+                {
+                  "effect": "Allow",
+                  "actions": [
+                    "sts:AssumeRole"
+                  ],
+                  "resources": [],
+                  "principals": [
+                    "ecs-tasks.amazonaws.com"
+                  ]
+                }
+              ]
+            },
+            "identityPolicies": [
+              {
+                "id": "ExamApiTaskRole-permissions",
+                "kind": "identity",
+                "statements": [
+                  {
+                    "effect": "Allow",
+                    "actions": [
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:UpdateItem",
+                      "dynamodb:Query",
+                      "events:PutEvents",
+                      "s3:PutObject",
+                      "s3:GetObject",
+                      "secretsmanager:GetSecretValue",
+                      "xray:PutTraceSegments",
+                      "logs:PutLogEvents",
+                      "cloudwatch:PutMetricData",
+                      "cognito-idp:GetUser",
+                      "kms:Decrypt",
+                      "kms:GenerateDataKey",
+                      "rds-db:connect",
+                      "elasticache:Connect"
+                    ],
+                    "resources": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "ecs-b",
+        "type": "serviceNode",
+        "position": {
+          "x": 1150,
+          "y": 420
+        },
+        "data": {
+          "serviceId": "ecs",
+          "label": "exam-api (Fargate) \u00b7 tasks AZ-B",
+          "category": "Compute",
+          "health": "healthy",
+          "az": "AZ-B",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": false,
+          "securityGroupIds": [
+            "sg-app"
+          ],
+          "customConfig": {
+            "ecs": {
+              "launchType": "FARGATE",
+              "networkMode": "awsvpc",
+              "desiredCount": 2,
+              "runningCount": 2,
+              "minCount": 4,
+              "maxCount": 20
+            }
+          },
+          "iamRole": {
+            "id": "ExamApiTaskRole",
+            "trustPolicy": {
+              "id": "ExamApiTaskRole-trust",
+              "kind": "trust",
+              "statements": [
+                {
+                  "effect": "Allow",
+                  "actions": [
+                    "sts:AssumeRole"
+                  ],
+                  "resources": [],
+                  "principals": [
+                    "ecs-tasks.amazonaws.com"
+                  ]
+                }
+              ]
+            },
+            "identityPolicies": [
+              {
+                "id": "ExamApiTaskRole-permissions",
+                "kind": "identity",
+                "statements": [
+                  {
+                    "effect": "Allow",
+                    "actions": [
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:UpdateItem",
+                      "dynamodb:Query",
+                      "events:PutEvents",
+                      "s3:PutObject",
+                      "s3:GetObject",
+                      "secretsmanager:GetSecretValue",
+                      "xray:PutTraceSegments",
+                      "logs:PutLogEvents",
+                      "cloudwatch:PutMetricData",
+                      "cognito-idp:GetUser",
+                      "kms:Decrypt",
+                      "kms:GenerateDataKey",
+                      "rds-db:connect",
+                      "elasticache:Connect"
+                    ],
+                    "resources": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "fn-mark",
+        "type": "serviceNode",
+        "position": {
+          "x": 420,
+          "y": 560
+        },
+        "data": {
+          "serviceId": "lambda",
+          "label": "marking-fn (MCQ auto-mark)",
+          "category": "Compute",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": true,
+          "securityGroupIds": [
+            "sg-lambda"
+          ],
+          "iamRole": {
+            "id": "MarkingFnRole",
+            "trustPolicy": {
+              "id": "MarkingFnRole-trust",
+              "kind": "trust",
+              "statements": [
+                {
+                  "effect": "Allow",
+                  "actions": [
+                    "sts:AssumeRole"
+                  ],
+                  "resources": [],
+                  "principals": [
+                    "lambda.amazonaws.com"
+                  ]
+                }
+              ]
+            },
+            "identityPolicies": [
+              {
+                "id": "MarkingFnRole-permissions",
+                "kind": "identity",
+                "statements": [
+                  {
+                    "effect": "Allow",
+                    "actions": [
+                      "sqs:ReceiveMessage",
+                      "sqs:DeleteMessage",
+                      "sqs:GetQueueAttributes",
+                      "ses:SendEmail",
+                      "ses:SendRawEmail",
+                      "s3:GetObject",
+                      "secretsmanager:GetSecretValue",
+                      "rds-db:connect",
+                      "logs:PutLogEvents",
+                      "xray:PutTraceSegments",
+                      "kms:Decrypt"
+                    ],
+                    "resources": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "fn-notify",
+        "type": "serviceNode",
+        "position": {
+          "x": 900,
+          "y": 560
+        },
+        "data": {
+          "serviceId": "lambda",
+          "label": "submission-notify-fn",
+          "category": "Compute",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": true,
+          "securityGroupIds": [
+            "sg-lambda"
+          ],
+          "iamRole": {
+            "id": "SubmissionNotifyFnRole",
+            "trustPolicy": {
+              "id": "SubmissionNotifyFnRole-trust",
+              "kind": "trust",
+              "statements": [
+                {
+                  "effect": "Allow",
+                  "actions": [
+                    "sts:AssumeRole"
+                  ],
+                  "resources": [],
+                  "principals": [
+                    "lambda.amazonaws.com"
+                  ]
+                }
+              ]
+            },
+            "identityPolicies": [
+              {
+                "id": "SubmissionNotifyFnRole-permissions",
+                "kind": "identity",
+                "statements": [
+                  {
+                    "effect": "Allow",
+                    "actions": [
+                      "sqs:ReceiveMessage",
+                      "sqs:DeleteMessage",
+                      "sqs:GetQueueAttributes",
+                      "ses:SendEmail",
+                      "ses:SendRawEmail",
+                      "s3:GetObject",
+                      "secretsmanager:GetSecretValue",
+                      "rds-db:connect",
+                      "logs:PutLogEvents",
+                      "xray:PutTraceSegments",
+                      "kms:Decrypt"
+                    ],
+                    "resources": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "proxy",
+        "type": "serviceNode",
+        "position": {
+          "x": 420,
+          "y": 800
+        },
+        "data": {
+          "serviceId": "rds_proxy",
+          "label": "RDS Proxy",
+          "category": "Databases",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": true,
+          "securityGroupIds": [
+            "sg-proxy"
+          ],
+          "customConfig": {
+            "operationLab": {
+              "action": "Connect",
+              "resource": {
+                "engineFamily": "POSTGRESQL",
+                "port": 5432,
+                "status": "available",
+                "credentialsValid": true
+              },
+              "request": {}
+            }
+          },
+          "iamRole": {
+            "id": "RdsProxyRole",
+            "trustPolicy": {
+              "id": "RdsProxyRole-trust",
+              "kind": "trust",
+              "statements": [
+                {
+                  "effect": "Allow",
+                  "actions": [
+                    "sts:AssumeRole"
+                  ],
+                  "resources": [],
+                  "principals": [
+                    "rds.amazonaws.com"
+                  ]
+                }
+              ]
+            },
+            "identityPolicies": [
+              {
+                "id": "RdsProxyRole-permissions",
+                "kind": "identity",
+                "statements": [
+                  {
+                    "effect": "Allow",
+                    "actions": [
+                      "secretsmanager:GetSecretValue",
+                      "kms:Decrypt"
+                    ],
+                    "resources": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "width": 100,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 100,
+          "height": 82
+        },
+        "style": {
+          "width": 100,
+          "height": 82
+        }
+      },
+      {
+        "id": "aurora-a",
+        "type": "serviceNode",
+        "position": {
+          "x": 170,
+          "y": 800
+        },
+        "data": {
+          "serviceId": "aurora",
+          "label": "Aurora PostgreSQL writer (Multi-AZ cluster)",
+          "category": "Databases",
+          "health": "healthy",
+          "az": "AZ-A",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": true,
+          "securityGroupIds": [
+            "sg-data"
+          ],
+          "width": 140,
+          "height": 117,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 117
+        },
+        "style": {
+          "width": 140,
+          "height": 117
+        }
+      },
+      {
+        "id": "redis-a",
+        "type": "serviceNode",
+        "position": {
+          "x": 170,
+          "y": 960
+        },
+        "data": {
+          "serviceId": "elasticache",
+          "label": "Redis primary (exam papers)",
+          "category": "Databases",
+          "health": "healthy",
+          "az": "AZ-A",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": false,
+          "securityGroupIds": [
+            "sg-data"
+          ],
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "aurora-b",
+        "type": "serviceNode",
+        "position": {
+          "x": 1150,
+          "y": 800
+        },
+        "data": {
+          "serviceId": "aurora",
+          "label": "Aurora reader / failover target",
+          "category": "Databases",
+          "health": "healthy",
+          "az": "AZ-B",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": false,
+          "securityGroupIds": [
+            "sg-data"
+          ],
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "redis-b",
+        "type": "serviceNode",
+        "position": {
+          "x": 1150,
+          "y": 960
+        },
+        "data": {
+          "serviceId": "elasticache",
+          "label": "Redis replica",
+          "category": "Databases",
+          "health": "healthy",
+          "az": "AZ-B",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": false,
+          "securityGroupIds": [
+            "sg-data"
+          ],
+          "width": 100,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 100,
+          "height": 82
+        },
+        "style": {
+          "width": 100,
+          "height": 82
+        }
+      },
+      {
+        "id": "s3ep",
+        "type": "serviceNode",
+        "position": {
+          "x": 420,
+          "y": 960
+        },
+        "data": {
+          "serviceId": "s3_gateway_endpoint",
+          "label": "S3 gateway endpoint",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": false,
+          "customConfig": {
+            "endpointService": "s3",
+            "routeTableIds": [
+              "rt-private-a",
+              "rt-private-b"
+            ]
+          },
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "rt-public",
+        "type": "serviceNode",
+        "position": {
+          "x": 150,
+          "y": 1260
+        },
+        "data": {
+          "serviceId": "route_tables",
+          "label": "rt-public \u2192 IGW",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "customConfig": {
+            "routeTable": {
+              "routes": [
+                {
+                  "destinationCidr": "10.0.0.0/16",
+                  "target": {
+                    "type": "local"
+                  }
+                },
+                {
+                  "destinationCidr": "0.0.0.0/0",
+                  "target": {
+                    "type": "igw",
+                    "targetId": "igw"
+                  }
+                }
+              ]
+            }
+          },
+          "width": 116,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 116,
+          "height": 82
+        },
+        "style": {
+          "width": 116,
+          "height": 82
+        }
+      },
+      {
+        "id": "rt-private-a",
+        "type": "serviceNode",
+        "position": {
+          "x": 350,
+          "y": 1260
+        },
+        "data": {
+          "serviceId": "route_tables",
+          "label": "rt-private-a \u2192 nat-a",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "customConfig": {
+            "routeTable": {
+              "routes": [
+                {
+                  "destinationCidr": "10.0.0.0/16",
+                  "target": {
+                    "type": "local"
+                  }
+                },
+                {
+                  "destinationCidr": "0.0.0.0/0",
+                  "target": {
+                    "type": "nat",
+                    "targetId": "nat-a"
+                  }
+                }
+              ]
+            }
+          },
+          "width": 139,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 139,
+          "height": 82
+        },
+        "style": {
+          "width": 139,
+          "height": 82
+        }
+      },
+      {
+        "id": "rt-private-b",
+        "type": "serviceNode",
+        "position": {
+          "x": 550,
+          "y": 1260
+        },
+        "data": {
+          "serviceId": "route_tables",
+          "label": "rt-private-b \u2192 nat-b",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "customConfig": {
+            "routeTable": {
+              "routes": [
+                {
+                  "destinationCidr": "10.0.0.0/16",
+                  "target": {
+                    "type": "local"
+                  }
+                },
+                {
+                  "destinationCidr": "0.0.0.0/0",
+                  "target": {
+                    "type": "nat",
+                    "targetId": "nat-b"
+                  }
+                }
+              ]
+            }
+          },
+          "width": 140,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 82
+        },
+        "style": {
+          "width": 140,
+          "height": 82
+        }
+      },
+      {
+        "id": "ddb",
+        "type": "serviceNode",
+        "position": {
+          "x": 1500,
+          "y": 380
+        },
+        "data": {
+          "serviceId": "dynamodb",
+          "label": "DynamoDB AnswerDrafts (PITR)",
+          "category": "Databases",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": true,
+          "width": 140,
+          "height": 117,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 117
+        },
+        "style": {
+          "width": 140,
+          "height": 117
+        }
+      },
+      {
+        "id": "s3up",
+        "type": "serviceNode",
+        "position": {
+          "x": 1500,
+          "y": 620
+        },
+        "data": {
+          "serviceId": "s3",
+          "label": "S3 assignments (SSE-KMS, lifecycle)",
+          "category": "Storage",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": true,
+          "width": 140,
+          "height": 117,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 117
+        },
+        "style": {
+          "width": 140,
+          "height": 117
+        }
+      },
+      {
+        "id": "glacier",
+        "type": "serviceNode",
+        "position": {
+          "x": 1500,
+          "y": 820
+        },
+        "data": {
+          "serviceId": "s3_glacier",
+          "label": "Glacier (after 365 d, delete 5 yr)",
+          "category": "Storage",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "backup",
+        "type": "serviceNode",
+        "position": {
+          "x": 1500,
+          "y": 1020
+        },
+        "data": {
+          "serviceId": "backup",
+          "label": "AWS Backup (5-yr vault lock)",
+          "category": "Storage",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "eb",
+        "type": "serviceNode",
+        "position": {
+          "x": 1700,
+          "y": 620
+        },
+        "data": {
+          "serviceId": "eventbridge",
+          "label": "EventBridge rules",
+          "category": "Integration & Messaging",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": true,
+          "width": 125,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 125,
+          "height": 82
+        },
+        "style": {
+          "width": 125,
+          "height": 82
+        }
+      },
+      {
+        "id": "sqs",
+        "type": "serviceNode",
+        "position": {
+          "x": 1700,
+          "y": 820
+        },
+        "data": {
+          "serviceId": "sqs",
+          "label": "SQS submissions queue",
+          "category": "Integration & Messaging",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": true,
+          "customConfig": {
+            "redrivePolicy": {
+              "deadLetterTargetId": "dlq",
+              "maxReceiveCount": 5
+            },
+            "visibilityTimeoutSeconds": 180
+          },
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "dlq",
+        "type": "serviceNode",
+        "position": {
+          "x": 1700,
+          "y": 1020
+        },
+        "data": {
+          "serviceId": "sqs_dlq",
+          "label": "Dead-letter queue",
+          "category": "Integration & Messaging",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 129,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 129,
+          "height": 82
+        },
+        "style": {
+          "width": 129,
+          "height": 82
+        }
+      },
+      {
+        "id": "ses",
+        "type": "serviceNode",
+        "position": {
+          "x": 1700,
+          "y": 380
+        },
+        "data": {
+          "serviceId": "ses",
+          "label": "SES (results + tutor email)",
+          "category": "Business Applications",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": true,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "secrets",
+        "type": "serviceNode",
+        "position": {
+          "x": 1900,
+          "y": 140
+        },
+        "data": {
+          "serviceId": "secrets_manager",
+          "label": "Secrets Manager (DB creds)",
+          "category": "Security, Identity & Compliance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "kms",
+        "type": "serviceNode",
+        "position": {
+          "x": 1900,
+          "y": 300
+        },
+        "data": {
+          "serviceId": "kms",
+          "label": "KMS customer keys",
+          "category": "Security, Identity & Compliance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 137,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 137,
+          "height": 82
+        },
+        "style": {
+          "width": 137,
+          "height": 82
+        }
+      },
+      {
+        "id": "iam",
+        "type": "serviceNode",
+        "position": {
+          "x": 1900,
+          "y": 460
+        },
+        "data": {
+          "serviceId": "iam",
+          "label": "IAM roles (task, lambda, pipeline)",
+          "category": "Security, Identity & Compliance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "cw",
+        "type": "serviceNode",
+        "position": {
+          "x": 1900,
+          "y": 620
+        },
+        "data": {
+          "serviceId": "cloudwatch",
+          "label": "CloudWatch logs, alarms",
+          "category": "Management & Governance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "xray",
+        "type": "serviceNode",
+        "position": {
+          "x": 1900,
+          "y": 780
+        },
+        "data": {
+          "serviceId": "xray",
+          "label": "X-Ray tracing",
+          "category": "Developer Tools",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 100,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 100,
+          "height": 82
+        },
+        "style": {
+          "width": 100,
+          "height": 82
+        }
+      },
+      {
+        "id": "sns",
+        "type": "serviceNode",
+        "position": {
+          "x": 1900,
+          "y": 940
+        },
+        "data": {
+          "serviceId": "sns",
+          "label": "SNS ops alerts",
+          "category": "Integration & Messaging",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 106,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 106,
+          "height": 82
+        },
+        "style": {
+          "width": 106,
+          "height": 82
+        }
+      },
+      {
+        "id": "trail",
+        "type": "serviceNode",
+        "position": {
+          "x": 1900,
+          "y": 1100
+        },
+        "data": {
+          "serviceId": "cloudtrail",
+          "label": "CloudTrail (5-yr)",
+          "category": "Management & Governance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 116,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 116,
+          "height": 82
+        },
+        "style": {
+          "width": 116,
+          "height": 82
+        }
+      },
+      {
+        "id": "gd",
+        "type": "serviceNode",
+        "position": {
+          "x": 1900,
+          "y": 1260
+        },
+        "data": {
+          "serviceId": "guardduty",
+          "label": "GuardDuty",
+          "category": "Security, Identity & Compliance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 100,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 100,
+          "height": 82
+        },
+        "style": {
+          "width": 100,
+          "height": 82
+        }
+      },
+      {
+        "id": "gh",
+        "type": "serviceNode",
+        "position": {
+          "x": 800,
+          "y": 1420
+        },
+        "data": {
+          "serviceId": "github",
+          "label": "GitHub repo (main)",
+          "category": "Third-Party & External",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 133,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 133,
+          "height": 82
+        },
+        "style": {
+          "width": 133,
+          "height": 82
+        }
+      },
+      {
+        "id": "pipe",
+        "type": "serviceNode",
+        "position": {
+          "x": 1000,
+          "y": 1420
+        },
+        "data": {
+          "serviceId": "codepipeline",
+          "label": "CodePipeline",
+          "category": "Developer Tools",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "iamRole": {
+            "id": "CodePipelineRole",
+            "trustPolicy": {
+              "id": "CodePipelineRole-trust",
+              "kind": "trust",
+              "statements": [
+                {
+                  "effect": "Allow",
+                  "actions": [
+                    "sts:AssumeRole"
+                  ],
+                  "resources": [],
+                  "principals": [
+                    "codepipeline.amazonaws.com"
+                  ]
+                }
+              ]
+            },
+            "identityPolicies": [
+              {
+                "id": "CodePipelineRole-permissions",
+                "kind": "identity",
+                "statements": [
+                  {
+                    "effect": "Allow",
+                    "actions": [
+                      "codebuild:StartBuild",
+                      "cloudformation:*",
+                      "ecs:UpdateService",
+                      "iam:PassRole"
+                    ],
+                    "resources": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "width": 100,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 100,
+          "height": 82
+        },
+        "style": {
+          "width": 100,
+          "height": 82
+        }
+      },
+      {
+        "id": "build",
+        "type": "serviceNode",
+        "position": {
+          "x": 1200,
+          "y": 1420
+        },
+        "data": {
+          "serviceId": "codebuild",
+          "label": "CodeBuild (test, build)",
+          "category": "Developer Tools",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "iamRole": {
+            "id": "CodeBuildRole",
+            "trustPolicy": {
+              "id": "CodeBuildRole-trust",
+              "kind": "trust",
+              "statements": [
+                {
+                  "effect": "Allow",
+                  "actions": [
+                    "sts:AssumeRole"
+                  ],
+                  "resources": [],
+                  "principals": [
+                    "codebuild.amazonaws.com"
+                  ]
+                }
+              ]
+            },
+            "identityPolicies": [
+              {
+                "id": "CodeBuildRole-permissions",
+                "kind": "identity",
+                "statements": [
+                  {
+                    "effect": "Allow",
+                    "actions": [
+                      "ecr:*",
+                      "s3:PutObject",
+                      "logs:PutLogEvents"
+                    ],
+                    "resources": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "ecr",
+        "type": "serviceNode",
+        "position": {
+          "x": 1400,
+          "y": 1420
+        },
+        "data": {
+          "serviceId": "ecr_registry",
+          "label": "ECR exam-api images",
+          "category": "Containers",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "cfn",
+        "type": "serviceNode",
+        "position": {
+          "x": 1200,
+          "y": 1580
+        },
+        "data": {
+          "serviceId": "cloudformation",
+          "label": "CloudFormation stacks",
+          "category": "Management & Governance",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": false,
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "ddbep",
+        "type": "serviceNode",
+        "position": {
+          "x": 900,
+          "y": 960
+        },
+        "data": {
+          "serviceId": "s3_gateway_endpoint",
+          "label": "DynamoDB gateway endpoint",
+          "category": "Networking & Content Delivery",
+          "health": "healthy",
+          "az": "Edge / Global",
+          "subnet": "private",
+          "replicas": 1,
+          "multiAz": false,
+          "customConfig": {
+            "endpointService": "dynamodb",
+            "routeTableIds": [
+              "rt-private-a",
+              "rt-private-b"
+            ]
+          },
+          "width": 140,
+          "height": 99,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "style": {
+          "width": 140,
+          "height": 99
+        }
+      },
+      {
+        "id": "sqs-mark",
+        "type": "serviceNode",
+        "position": {
+          "x": 1700,
+          "y": 1180
+        },
+        "data": {
+          "serviceId": "sqs",
+          "label": "SQS marking queue",
+          "category": "Integration & Messaging",
+          "health": "healthy",
+          "az": "Multi-AZ",
+          "subnet": "global",
+          "replicas": 1,
+          "multiAz": true,
+          "customConfig": {
+            "redrivePolicy": {
+              "deadLetterTargetId": "dlq",
+              "maxReceiveCount": 5
+            },
+            "visibilityTimeoutSeconds": 180
+          },
+          "width": 138,
+          "height": 82,
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "zIndex": 10,
+        "measured": {
+          "width": 138,
+          "height": 82
+        },
+        "style": {
+          "width": 138,
+          "height": 82
+        }
+      },
+      {
+        "id": "sg-proxy",
+        "type": "boundaryNode",
+        "position": {
+          "x": 2200,
+          "y": 680
+        },
+        "style": {
+          "width": 240,
+          "height": 120
+        },
+        "data": {
+          "label": "proxy-sg (5432 from lambda-sg)",
+          "boundaryType": "security_group",
+          "width": 240,
+          "height": 120,
+          "securityGroupRules": {
+            "inbound": [
+              {
+                "protocol": "SQL",
+                "portRange": "5432",
+                "source": {
+                  "type": "securityGroup",
+                  "securityGroupId": "sg-lambda"
+                }
+              }
+            ],
+            "outbound": []
+          },
+          "isSimulating": false,
+          "simulationStatus": "idle"
+        },
+        "draggable": true,
+        "selectable": true,
+        "zIndex": -4,
+        "measured": {
+          "width": 240,
+          "height": 120
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "user-r53",
+        "source": "user",
+        "target": "r53",
+        "type": "custom",
+        "data": {
+          "protocol": "DNS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 1,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "completed",
+          "flowStepNumber": 2,
+          "flowStepIndex": 1,
+          "flowAction": "Forward DNS request",
+          "flowLatency": 20,
+          "flowExplanation": "Student browser forwarded DNS request to Route 53 exam.uni.edu."
+        }
+      },
+      {
+        "id": "user-cognito",
+        "source": "user",
+        "target": "cognito",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "cf-acm",
+        "source": "cf",
+        "target": "acm",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "cf-s3web",
+        "source": "cf",
+        "target": "s3web",
+        "type": "custom",
+        "data": {
+          "protocol": "S3 API",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "cf-alb",
+        "source": "cf",
+        "target": "alb",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 4,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "pending",
+          "flowStepNumber": 6,
+          "flowStepIndex": 5,
+          "flowAction": "Edge Cache MISS -> Forwarding to Origin",
+          "flowLatency": 15,
+          "flowExplanation": "CloudFront cache MISS for dynamic route '/api/exams/1/start'. Forwarding request to origin backend."
+        }
+      },
+      {
+        "id": "alb-ecs-a",
+        "source": "alb",
+        "target": "ecs-a",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTP",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 5,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "pending",
+          "flowStepNumber": 10,
+          "flowStepIndex": 9,
+          "flowAction": "Security Group: Traffic Allowed",
+          "flowLatency": 2,
+          "flowExplanation": "app-sg (from alb-sg) has an inbound rule allowing HTTP - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED."
+        }
+      },
+      {
+        "id": "alb-ecs-b",
+        "source": "alb",
+        "target": "ecs-b",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTP",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 6,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed",
+          "flowStepNumber": 6
+        }
+      },
+      {
+        "id": "ecs-a-cognito",
+        "source": "ecs-a",
+        "target": "cognito",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-a-redis-a",
+        "source": "ecs-a",
+        "target": "redis-a",
+        "type": "custom",
+        "data": {
+          "protocol": "TCP",
+          "interactionType": "cached",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-a-ddb",
+        "source": "ecs-a",
+        "target": "ddb",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-a-eb",
+        "source": "ecs-a",
+        "target": "eb",
+        "type": "custom",
+        "data": {
+          "protocol": "Event",
+          "interactionType": "event",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-a-secrets",
+        "source": "ecs-a",
+        "target": "secrets",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-a-cw",
+        "source": "ecs-a",
+        "target": "cw",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-a-xray",
+        "source": "ecs-a",
+        "target": "xray",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-b-cognito",
+        "source": "ecs-b",
+        "target": "cognito",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-b-redis-a",
+        "source": "ecs-b",
+        "target": "redis-a",
+        "type": "custom",
+        "data": {
+          "protocol": "TCP",
+          "interactionType": "cached",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-b-ddb",
+        "source": "ecs-b",
+        "target": "ddb",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-b-eb",
+        "source": "ecs-b",
+        "target": "eb",
+        "type": "custom",
+        "data": {
+          "protocol": "Event",
+          "interactionType": "event",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-b-secrets",
+        "source": "ecs-b",
+        "target": "secrets",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-b-cw",
+        "source": "ecs-b",
+        "target": "cw",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-b-xray",
+        "source": "ecs-b",
+        "target": "xray",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "proxy-aurora-a",
+        "source": "proxy",
+        "target": "aurora-a",
+        "type": "custom",
+        "data": {
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "proxy-aurora-b",
+        "source": "proxy",
+        "target": "aurora-b",
+        "type": "custom",
+        "data": {
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "redis-a-redis-b",
+        "source": "redis-a",
+        "target": "redis-b",
+        "type": "custom",
+        "data": {
+          "protocol": "Replication",
+          "interactionType": "asynchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "aurora-a-aurora-b",
+        "source": "aurora-a",
+        "target": "aurora-b",
+        "type": "custom",
+        "data": {
+          "protocol": "Replication",
+          "interactionType": "asynchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "uploader-s3up",
+        "source": "uploader",
+        "target": "s3up",
+        "type": "custom",
+        "data": {
+          "protocol": "S3 API",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "s3up-eb",
+        "source": "s3up",
+        "target": "eb",
+        "type": "custom",
+        "data": {
+          "protocol": "Event",
+          "interactionType": "event",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "eb-sqs",
+        "source": "eb",
+        "target": "sqs",
+        "type": "custom",
+        "data": {
+          "protocol": "Message",
+          "interactionType": "asynchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "sqs-fn-notify",
+        "source": "sqs",
+        "target": "fn-notify",
+        "type": "custom",
+        "data": {
+          "protocol": "Message",
+          "interactionType": "asynchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "fn-notify-proxy",
+        "source": "fn-notify",
+        "target": "proxy",
+        "type": "custom",
+        "data": {
+          "protocol": "SQL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "fn-notify-ses",
+        "source": "fn-notify",
+        "target": "ses",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "fn-mark-proxy",
+        "source": "fn-mark",
+        "target": "proxy",
+        "type": "custom",
+        "data": {
+          "protocol": "SQL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "fn-mark-ses",
+        "source": "fn-mark",
+        "target": "ses",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "sqs-dlq",
+        "source": "sqs",
+        "target": "dlq",
+        "type": "custom",
+        "data": {
+          "protocol": "Message",
+          "interactionType": "asynchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "s3up-glacier",
+        "source": "s3up",
+        "target": "glacier",
+        "type": "custom",
+        "data": {
+          "protocol": "S3 API",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "s3up-kms",
+        "source": "s3up",
+        "target": "kms",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ddb-kms",
+        "source": "ddb",
+        "target": "kms",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "aurora-a-kms",
+        "source": "aurora-a",
+        "target": "kms",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "backup-aurora-a",
+        "source": "backup",
+        "target": "aurora-a",
+        "type": "custom",
+        "data": {
+          "protocol": "ALL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "backup-ddb",
+        "source": "backup",
+        "target": "ddb",
+        "type": "custom",
+        "data": {
+          "protocol": "ALL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "cw-sns",
+        "source": "cw",
+        "target": "sns",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "gd-trail",
+        "source": "gd",
+        "target": "trail",
+        "type": "custom",
+        "data": {
+          "protocol": "ALL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "nat-a-igw",
+        "source": "nat-a",
+        "target": "igw",
+        "type": "custom",
+        "data": {
+          "protocol": "TCP",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "nat-b-igw",
+        "source": "nat-b",
+        "target": "igw",
+        "type": "custom",
+        "data": {
+          "protocol": "TCP",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "gh-pipe",
+        "source": "gh",
+        "target": "pipe",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "event",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "pipe-build",
+        "source": "pipe",
+        "target": "build",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "build-ecr",
+        "source": "build",
+        "target": "ecr",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "pipe-cfn",
+        "source": "pipe",
+        "target": "cfn",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "cfn-ecs-a",
+        "source": "cfn",
+        "target": "ecs-a",
+        "type": "custom",
+        "data": {
+          "protocol": "ALL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "build-s3web",
+        "source": "build",
+        "target": "s3web",
+        "type": "custom",
+        "data": {
+          "protocol": "S3 API",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "r53-waf",
+        "source": "r53",
+        "target": "waf",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 2,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "completed",
+          "flowStepNumber": 3,
+          "flowStepIndex": 2,
+          "flowAction": "Forward HTTPS request",
+          "flowLatency": 20,
+          "flowExplanation": "Route 53 exam.uni.edu forwarded HTTPS request to AWS WAF web ACL."
+        }
+      },
+      {
+        "id": "waf-cf",
+        "source": "waf",
+        "target": "cf",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 3,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "pending",
+          "flowStepNumber": 5,
+          "flowStepIndex": 4,
+          "flowAction": "Forward HTTPS request",
+          "flowLatency": 20,
+          "flowExplanation": "AWS WAF web ACL forwarded HTTPS request to CloudFront distribution."
+        }
+      },
+      {
+        "id": "shield-waf",
+        "source": "shield",
+        "target": "waf",
+        "type": "custom",
+        "data": {
+          "protocol": "ALL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-a-aurora-a",
+        "source": "ecs-a",
+        "target": "aurora-a",
+        "type": "custom",
+        "data": {
+          "protocol": "SQL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 7,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "pending",
+          "flowStepNumber": 13,
+          "flowStepIndex": 12,
+          "flowAction": "Security Group: Traffic Allowed",
+          "flowLatency": 2,
+          "flowExplanation": "data-sg (from app-sg, proxy-sg) has an inbound rule allowing SQL - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED."
+        }
+      },
+      {
+        "id": "ecs-b-aurora-a",
+        "source": "ecs-b",
+        "target": "aurora-a",
+        "type": "custom",
+        "data": {
+          "protocol": "SQL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 8,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed",
+          "flowStepNumber": 8
+        }
+      },
+      {
+        "id": "s3ep-s3up",
+        "source": "s3ep",
+        "target": "s3up",
+        "type": "custom",
+        "data": {
+          "protocol": "S3 API",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ddbep-ddb",
+        "source": "ddbep",
+        "target": "ddb",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "traversal": "dependency",
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "eb-sqs-mark",
+        "source": "eb",
+        "target": "sqs-mark",
+        "type": "custom",
+        "data": {
+          "protocol": "Message",
+          "interactionType": "asynchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "sqs-mark-fn-mark",
+        "source": "sqs-mark",
+        "target": "fn-mark",
+        "type": "custom",
+        "data": {
+          "protocol": "Message",
+          "interactionType": "asynchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "sqs-mark-dlq",
+        "source": "sqs-mark",
+        "target": "dlq",
+        "type": "custom",
+        "data": {
+          "protocol": "Message",
+          "interactionType": "asynchronous",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "proxy-secrets",
+        "source": "proxy",
+        "target": "secrets",
+        "type": "custom",
+        "data": {
+          "protocol": "HTTPS",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "cfn-ecs-b",
+        "source": "cfn",
+        "target": "ecs-b",
+        "type": "custom",
+        "data": {
+          "protocol": "ALL",
+          "interactionType": "synchronous",
+          "traversal": "dependency",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-a-aurora-b",
+        "source": "ecs-a",
+        "target": "aurora-b",
+        "type": "custom",
+        "data": {
+          "protocol": "SQL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 9,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed",
+          "flowStepNumber": 9
+        }
+      },
+      {
+        "id": "ecs-a-redis-b",
+        "source": "ecs-a",
+        "target": "redis-b",
+        "type": "custom",
+        "data": {
+          "protocol": "TCP",
+          "interactionType": "cached",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      },
+      {
+        "id": "ecs-b-aurora-b",
+        "source": "ecs-b",
+        "target": "aurora-b",
+        "type": "custom",
+        "data": {
+          "protocol": "SQL",
+          "interactionType": "synchronous",
+          "isCriticalDependency": true,
+          "timeoutMs": 1500,
+          "stepNumber": 10,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed",
+          "flowStepNumber": 10
+        }
+      },
+      {
+        "id": "ecs-b-redis-b",
+        "source": "ecs-b",
+        "target": "redis-b",
+        "type": "custom",
+        "data": {
+          "protocol": "TCP",
+          "interactionType": "cached",
+          "isCriticalDependency": false,
+          "timeoutMs": 1500,
+          "isSimulating": false,
+          "isFailing": false,
+          "flowStatus": "dimmed"
+        }
+      }
+    ],
+    "scenario": {
+      "id": "wt1-start",
+      "name": "Walkthrough 1a \u00b7 student opens exam (10\u00d7 spike)",
+      "method": "GET",
+      "path": "/api/exams/1/start",
+      "startNodeId": "user",
+      "trafficLevel": "10x"
+    },
+    "simulationResult": {
+      "scenario": {
+        "id": "wt1-start",
+        "name": "Walkthrough 1a \u00b7 student opens exam (10\u00d7 spike)",
+        "method": "GET",
+        "path": "/api/exams/1/start",
+        "startNodeId": "user",
+        "trafficLevel": "10x"
+      },
+      "serviceStates": {},
+      "steps": [
+        {
+          "id": "step-1",
+          "stepNumber": 1,
+          "timestampMs": 0,
+          "sourceNodeId": "client-env",
+          "targetNodeId": "user",
+          "sourceNodeName": "Client Application",
+          "targetNodeName": "Student browser",
+          "protocol": "HTTPS",
+          "action": "Issued GET /api/exams/1/start",
+          "status": "success",
+          "explanation": "Client initiated GET /api/exams/1/start under 10X traffic load.",
+          "targetHealth": "healthy",
+          "latencyMs": 5
+        },
+        {
+          "id": "step-2",
+          "stepNumber": 2,
+          "timestampMs": 5,
+          "sourceNodeId": "user",
+          "targetNodeId": "r53",
+          "sourceNodeName": "Student browser",
+          "targetNodeName": "Route 53 exam.uni.edu",
+          "protocol": "DNS",
+          "action": "Forward DNS request",
+          "status": "success",
+          "explanation": "Student browser forwarded DNS request to Route 53 exam.uni.edu.",
+          "targetHealth": "healthy",
+          "latencyMs": 20
+        },
+        {
+          "id": "step-3",
+          "stepNumber": 3,
+          "timestampMs": 25,
+          "sourceNodeId": "r53",
+          "targetNodeId": "waf",
+          "sourceNodeName": "Route 53 exam.uni.edu",
+          "targetNodeName": "AWS WAF web ACL",
+          "protocol": "HTTPS",
+          "action": "Forward HTTPS request",
+          "status": "success",
+          "explanation": "Route 53 exam.uni.edu forwarded HTTPS request to AWS WAF web ACL.",
+          "targetHealth": "healthy",
+          "latencyMs": 20
+        },
+        {
+          "id": "step-4",
+          "stepNumber": 4,
+          "timestampMs": 45,
+          "sourceNodeId": "waf",
+          "targetNodeId": "waf",
+          "sourceNodeName": "AWS WAF web ACL",
+          "targetNodeName": "AWS WAF web ACL",
+          "protocol": "HTTPS",
+          "action": "AWS WAF: Inspection Passed",
+          "status": "success",
+          "explanation": "AWS WAF inspected headers and payload for '/api/exams/1/start'. Request validated against rate limits and SQLi/XSS inspection. Passing to origin.",
+          "targetHealth": "healthy",
+          "latencyMs": 3
+        },
+        {
+          "id": "step-5",
+          "stepNumber": 5,
+          "timestampMs": 48,
+          "sourceNodeId": "waf",
+          "targetNodeId": "cf",
+          "sourceNodeName": "AWS WAF web ACL",
+          "targetNodeName": "CloudFront distribution",
+          "protocol": "HTTPS",
+          "action": "Forward HTTPS request",
+          "status": "success",
+          "explanation": "AWS WAF web ACL forwarded HTTPS request to CloudFront distribution.",
+          "targetHealth": "healthy",
+          "latencyMs": 20
+        },
+        {
+          "id": "step-6",
+          "stepNumber": 6,
+          "timestampMs": 68,
+          "sourceNodeId": "cf",
+          "targetNodeId": "alb",
+          "sourceNodeName": "CloudFront distribution",
+          "targetNodeName": "exam-alb \u00b7 public A + B",
+          "protocol": "HTTPS",
+          "action": "Edge Cache MISS -> Forwarding to Origin",
+          "status": "success",
+          "explanation": "CloudFront cache MISS for dynamic route '/api/exams/1/start'. Forwarding request to origin backend.",
+          "targetHealth": "healthy",
+          "latencyMs": 15,
+          "details": {
+            "cacheHit": false
+          }
+        },
+        {
+          "id": "step-7",
+          "stepNumber": 7,
+          "timestampMs": 83,
+          "sourceNodeId": "cf",
+          "targetNodeId": "igw",
+          "sourceNodeName": "CloudFront distribution",
+          "targetNodeName": "exam-igw",
+          "protocol": "TCP",
+          "action": "Route table: internet gateway",
+          "status": "success",
+          "explanation": "rt-public \u2192 IGW routes 0.0.0.0/0 to exam-igw, which is attached to the VPC. Internet clients can reach exam-alb \u00b7 public A + B through its public address.",
+          "targetHealth": "healthy",
+          "latencyMs": 2
+        },
+        {
+          "id": "step-8",
+          "stepNumber": 8,
+          "timestampMs": 85,
+          "sourceNodeId": "cf",
+          "targetNodeId": "alb",
+          "sourceNodeName": "CloudFront distribution",
+          "targetNodeName": "exam-alb \u00b7 public A + B",
+          "protocol": "HTTPS",
+          "action": "Security Group: Traffic Allowed",
+          "status": "success",
+          "explanation": "alb-sg (443 from CloudFront) has an inbound rule allowing HTTPS - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+          "targetHealth": "healthy",
+          "latencyMs": 2,
+          "details": {
+            "decision": {
+              "order": 8,
+              "component": "Security Group",
+              "resource": "alb-sg (443 from CloudFront)",
+              "operation": "evaluate-inbound-firewall",
+              "input": {
+                "sourceIp": "UNKNOWN",
+                "destinationPort": "UNSPECIFIED",
+                "protocol": "HTTPS"
+              },
+              "decision": "ALLOW",
+              "reason": "alb-sg (443 from CloudFront) has an inbound rule allowing HTTPS - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+              "simpleExplanation": "alb-sg (443 from CloudFront) has an inbound rule allowing HTTPS - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+              "awsRule": "Security group inbound rules allow matching protocol, port and source. https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html",
+              "metadata": {
+                "coverage": "inbound-only",
+                "addressEvaluated": false,
+                "portEvaluated": false
+              }
+            }
+          }
+        },
+        {
+          "id": "step-9",
+          "stepNumber": 9,
+          "timestampMs": 87,
+          "sourceNodeId": "cf",
+          "targetNodeId": "alb",
+          "sourceNodeName": "CloudFront distribution",
+          "targetNodeName": "exam-alb \u00b7 public A + B",
+          "protocol": "HTTPS",
+          "action": "Forward HTTPS request",
+          "status": "success",
+          "explanation": "CloudFront distribution forwarded HTTPS request to exam-alb \u00b7 public A + B.",
+          "targetHealth": "healthy",
+          "latencyMs": 20
+        },
+        {
+          "id": "step-10",
+          "stepNumber": 10,
+          "timestampMs": 107,
+          "sourceNodeId": "alb",
+          "targetNodeId": "ecs-a",
+          "sourceNodeName": "exam-alb \u00b7 public A + B",
+          "targetNodeName": "exam-api (Fargate) \u00b7 tasks AZ-A",
+          "protocol": "HTTP",
+          "action": "Security Group: Traffic Allowed",
+          "status": "success",
+          "explanation": "app-sg (from alb-sg) has an inbound rule allowing HTTP - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+          "targetHealth": "healthy",
+          "latencyMs": 2,
+          "details": {
+            "decision": {
+              "order": 10,
+              "component": "Security Group",
+              "resource": "app-sg (from alb-sg)",
+              "operation": "evaluate-inbound-firewall",
+              "input": {
+                "sourceIp": "UNKNOWN",
+                "destinationPort": "UNSPECIFIED",
+                "protocol": "HTTP"
+              },
+              "decision": "ALLOW",
+              "reason": "app-sg (from alb-sg) has an inbound rule allowing HTTP - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+              "simpleExplanation": "app-sg (from alb-sg) has an inbound rule allowing HTTP - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+              "awsRule": "Security group inbound rules allow matching protocol, port and source. https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html",
+              "metadata": {
+                "coverage": "inbound-only",
+                "addressEvaluated": false,
+                "portEvaluated": false
+              }
+            }
+          }
+        },
+        {
+          "id": "step-11",
+          "stepNumber": 11,
+          "timestampMs": 109,
+          "sourceNodeId": "alb",
+          "targetNodeId": "ecs-a",
+          "sourceNodeName": "exam-alb \u00b7 public A + B",
+          "targetNodeName": "exam-api (Fargate) \u00b7 tasks AZ-A",
+          "protocol": "HTTP",
+          "action": "Route to exam-api (Fargate) \u00b7 tasks AZ-A",
+          "status": "success",
+          "explanation": "exam-alb \u00b7 public A + B evaluated 2 registered target(s). Selected healthy target [exam-api (Fargate) \u00b7 tasks AZ-A].",
+          "targetHealth": "healthy",
+          "latencyMs": 12,
+          "details": {
+            "targetsEvaluated": [
+              {
+                "id": "ecs-a",
+                "name": "exam-api (Fargate) \u00b7 tasks AZ-A",
+                "health": "healthy",
+                "selected": true
+              },
+              {
+                "id": "ecs-b",
+                "name": "exam-api (Fargate) \u00b7 tasks AZ-B",
+                "health": "healthy",
+                "selected": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "step-12",
+          "stepNumber": 12,
+          "timestampMs": 121,
+          "sourceNodeId": "ecs-a",
+          "targetNodeId": "ecs-a",
+          "sourceNodeName": "exam-api (Fargate) \u00b7 tasks AZ-A",
+          "targetNodeName": "exam-api (Fargate) \u00b7 tasks AZ-A",
+          "protocol": "HTTP",
+          "action": "ECS running task availability",
+          "status": "success",
+          "explanation": "exam-api (Fargate) \u00b7 tasks AZ-A has an available running task. Load saturation and scheduler timing are not modeled; no automatic scale-out is assumed.",
+          "targetHealth": "healthy",
+          "latencyMs": 0
+        },
+        {
+          "id": "step-13",
+          "stepNumber": 13,
+          "timestampMs": 121,
+          "sourceNodeId": "ecs-a",
+          "targetNodeId": "aurora-a",
+          "sourceNodeName": "exam-api (Fargate) \u00b7 tasks AZ-A",
+          "targetNodeName": "Aurora PostgreSQL writer (Multi-AZ cluster)",
+          "protocol": "SQL",
+          "action": "Security Group: Traffic Allowed",
+          "status": "success",
+          "explanation": "data-sg (from app-sg, proxy-sg) has an inbound rule allowing SQL - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+          "targetHealth": "healthy",
+          "latencyMs": 2,
+          "details": {
+            "decision": {
+              "order": 13,
+              "component": "Security Group",
+              "resource": "data-sg (from app-sg, proxy-sg)",
+              "operation": "evaluate-inbound-firewall",
+              "input": {
+                "sourceIp": "UNKNOWN",
+                "destinationPort": "UNSPECIFIED",
+                "protocol": "SQL"
+              },
+              "decision": "ALLOW",
+              "reason": "data-sg (from app-sg, proxy-sg) has an inbound rule allowing SQL - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+              "simpleExplanation": "data-sg (from app-sg, proxy-sg) has an inbound rule allowing SQL - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+              "awsRule": "Security group inbound rules allow matching protocol, port and source. https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html",
+              "metadata": {
+                "coverage": "inbound-only",
+                "addressEvaluated": false,
+                "portEvaluated": false
+              }
+            }
+          }
+        },
+        {
+          "id": "step-14",
+          "stepNumber": 14,
+          "timestampMs": 123,
+          "sourceNodeId": "ecs-a",
+          "targetNodeId": "aurora-a",
+          "sourceNodeName": "exam-api (Fargate) \u00b7 tasks AZ-A",
+          "targetNodeName": "Aurora PostgreSQL writer (Multi-AZ cluster)",
+          "protocol": "SQL",
+          "action": "Security Group: Traffic Allowed",
+          "status": "success",
+          "explanation": "data-sg (from app-sg, proxy-sg) has an inbound rule allowing SQL - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+          "targetHealth": "healthy",
+          "latencyMs": 2,
+          "details": {
+            "decision": {
+              "order": 14,
+              "component": "Security Group",
+              "resource": "data-sg (from app-sg, proxy-sg)",
+              "operation": "evaluate-inbound-firewall",
+              "input": {
+                "sourceIp": "UNKNOWN",
+                "destinationPort": "UNSPECIFIED",
+                "protocol": "SQL"
+              },
+              "decision": "ALLOW",
+              "reason": "data-sg (from app-sg, proxy-sg) has an inbound rule allowing SQL - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+              "simpleExplanation": "data-sg (from app-sg, proxy-sg) has an inbound rule allowing SQL - traffic permitted. Packet context: source UNKNOWN, destination port UNSPECIFIED.",
+              "awsRule": "Security group inbound rules allow matching protocol, port and source. https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html",
+              "metadata": {
+                "coverage": "inbound-only",
+                "addressEvaluated": false,
+                "portEvaluated": false
+              }
+            }
+          }
+        },
+        {
+          "id": "step-15",
+          "stepNumber": 15,
+          "timestampMs": 125,
+          "sourceNodeId": "ecs-a",
+          "targetNodeId": "aurora-a",
+          "sourceNodeName": "exam-api (Fargate) \u00b7 tasks AZ-A",
+          "targetNodeName": "Aurora PostgreSQL writer (Multi-AZ cluster)",
+          "protocol": "SQL",
+          "action": "Forward SQL request",
+          "status": "success",
+          "explanation": "exam-api (Fargate) \u00b7 tasks AZ-A forwarded SQL request to Aurora PostgreSQL writer (Multi-AZ cluster).",
+          "targetHealth": "healthy",
+          "latencyMs": 20
+        },
+        {
+          "id": "step-16",
+          "stepNumber": 16,
+          "timestampMs": 145,
+          "sourceNodeId": "aurora-a",
+          "targetNodeId": "aurora-a",
+          "sourceNodeName": "Aurora PostgreSQL writer (Multi-AZ cluster)",
+          "targetNodeName": "Aurora PostgreSQL writer (Multi-AZ cluster)",
+          "protocol": "SQL",
+          "action": "Query Completed",
+          "status": "success",
+          "explanation": "Aurora PostgreSQL writer (Multi-AZ cluster) committed transaction and returned data.",
+          "targetHealth": "healthy",
+          "latencyMs": 25
+        },
+        {
+          "id": "step-17",
+          "stepNumber": 17,
+          "timestampMs": 185,
+          "sourceNodeId": "aurora-a",
+          "targetNodeId": "user",
+          "sourceNodeName": "Aurora PostgreSQL writer (Multi-AZ cluster)",
+          "targetNodeName": "Student browser",
+          "protocol": "HTTPS",
+          "action": "HTTP 200 Response Delivered",
+          "status": "success",
+          "explanation": "Full roundtrip complete. Client received HTTP 200 in 185ms.",
+          "targetHealth": "healthy",
+          "latencyMs": 15,
+          "details": {
+            "statusCode": 200
+          }
+        }
+      ],
+      "success": true,
+      "totalLatencyMs": 185,
+      "statusCode": 200,
+      "summary": "Request successfully processed across all architectural tiers. Scope: the forwarding path and supported dependency calls were evaluated; other dependency-only arrows were not executed. Scope: structural relationships do not carry requests; ASG control-plane changes run separately through the scaling controls. Other structural control-plane behavior is not yet simulated.",
+      "bottlenecksDetected": [],
+      "cascadeOccurred": false,
+      "path": [
+        "user",
+        "r53",
+        "waf",
+        "cf",
+        "alb",
+        "ecs-a",
+        "aurora-a"
+      ],
+      "kind": "request",
+      "outcome": "success"
+    },
+    "activeFailures": [],
+    "activeLabReference": null,
+    "activeChallengeId": null,
+    "challengeResult": null,
+    "appMode": "simulate",
+    "selectedNodeId": null,
+    "selectedEdgeId": null,
+    "activeStepIndex": 3,
+    "playbackSpeed": 1,
+    "highlightTaskFlow": true,
+    "showNaclSideColumn": false,
+    "viewport": {
+      "x": 400,
+      "y": 250,
+      "zoom": 0.35
+    }
+  }
+}
